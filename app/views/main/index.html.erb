@@ -26,13 +26,11 @@
           <%= link_to "Playing Now", "javascript:;", :title=>"Artists" %>
           <%= link_to "Playing Now", "javascript:;", :title=>"Artists" %>
         </div>
-        <% if false %>
         <%= link_to "Search", "javascript:;", :onclick => "$('#searchText').toggle(); $('#search_keyword').focus();" %>
         <div id="searchText" style="display:none">
           <% form_remote_tag :url => search_path,
             :update => "search_results" do %>
             <%= text_field_tag "search_keyword" %>
-          <% end %>
         
         </div>
         <div id="search_results" style="display:block">
@@ -65,7 +63,7 @@
       $(document).ready(function(){
         loadSubPanel('#artistsMenu', '<%=artists_path%>');
         nextRandomSong();
-        setInterval("if( niftyplayer('nplayer').getState() == 'finished' ) nextRandomSong();", 2000);
+        setInterval("if( niftyplayer('nplayer').getState() == 'finished' ||  niftyplayer('nplayer').getState() == 'error') nextRandomSong();", 2000);
       });
       
     </script>
