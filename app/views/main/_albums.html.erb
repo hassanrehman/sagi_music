@@ -1,0 +1,18 @@
+<%
+album_links = []
+album_links << link_to("All", "javascript:;", :style => "color:green;",
+    :onclick => "loadSubPanel('#songsMenu', \"#{songs_path(artist, "all")}\");") if albums.size > 1
+  
+album_links += albums.collect do |a|
+  link_to a, "javascript:;",
+    :onclick => "loadSubPanel('#songsMenu', \"#{songs_path(artist, a)}\");"
+end
+%>
+
+<%= album_links.join(", ") %>
+
+<% if albums.size == 1 %>
+<script type="text/javascript">
+  loadSubPanel('#songsMenu', "<%=  songs_path(artist, albums.first) %>");
+</script>
+<% end %>
