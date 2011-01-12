@@ -2,7 +2,7 @@
 songs = []
 albums.each do |k,v|
   v.each do |song|
-    path = "music/#{artist}/#{k}/#{song}"
+    path = "/music/#{artist}/#{k}/#{song}"
     songs << link_to(song, "javascript:;",
                 :onclick => "playSong(\"#{path}\", \"#{artist} - #{song}\");")
   end

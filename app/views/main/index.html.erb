@@ -17,7 +17,7 @@
   </div>
   <div id="content" align="center">
     <div id="menu" align="right">
-      <div align="right" style="width:189px; height:8px;"><img src="images/mnu_topshadow.gif" width="189" height="8" alt="mnutopshadow" /></div>
+      <div align="right" style="width:189px; height:8px;"><img src="/images/mnu_topshadow.gif" width="189" height="8" alt="mnutopshadow" /></div>
       <div id="mainMenu" class="linksmenu" align="center">
         <%= link_to "Playing Now", "javascript:;", :title=>"Artists", :onclick => "$('#playingNow').toggle('fast');" %>
         <div id="playingNow" style="display:none">
@@ -38,15 +38,16 @@
         </div>
         <% end %>
       </div>
-      <div align="right" style="width:189px; height:8px;"><img src="images/mnu_bottomshadow.gif" width="189" height="8" alt="mnubottomshadow" /></div>
+      <div align="right" style="width:189px; height:8px;"><img src="/images/mnu_bottomshadow.gif" width="189" height="8" alt="mnubottomshadow" /></div>
     </div>
     <div id="contenttext">
       <div class="bodytext" style="padding:12px;" align="justify">
         <strong>Artist: </strong><span id="nowArtist"></span><br />
         <strong>Album: </strong><span id="nowAlbum"></span><br />
         <strong>Song: </strong><span id="nowSong"></span><br />
+        <strong>Direct Link: </strong><span id="nowDirectLink"></span><br />
         <br />
-        <embed src="niftyplayer.swf" quality=high bgcolor=#FFFFFF
+        <embed src="/niftyplayer.swf" quality=high bgcolor=#FFFFFF
                width="165" height="37" name="nplayer" align=""
                type="application/x-shockwave-flash" swLiveConnect="true"
                pluginspage="http://www.macromedia.com/go/getflashplayer">
@@ -62,10 +63,9 @@
     <script type="text/javascript">
       $(document).ready(function(){
         loadSubPanel('#artistsMenu', '<%=artists_path%>');
-        nextRandomSong();
-        setInterval("if( niftyplayer('nplayer').getState() == 'finished' ||  niftyplayer('nplayer').getState() == 'error') nextRandomSong();", 2000);
+        <%= "setTimeout( \"playSong(\\\"#{@song}\\\");\", 1000)" if @song %>
+        setInterval("if( /finished|error|empty/.test( niftyplayer('nplayer').getState() )) nextRandomSong();", 2000);
       });
-      
     </script>
   </div>
   

@@ -24,7 +24,7 @@ test:
 
 production:
   adapter: mysql
-  database: sagi_music_production_production
+  database: sagi_music_production
   pool: 5
   timeout: 5000
   username: mango

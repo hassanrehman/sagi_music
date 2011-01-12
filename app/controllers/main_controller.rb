@@ -2,6 +2,11 @@ class MainController < ApplicationController
 
   def index
     @all_artists = MusicFactory.all_music.keys.sort
+    if params["song"]
+      @song = "/music/#{params[:artist]}/#{params[:album]}/#{params[:song]}"
+    end
+    RAILS_DEFAULT_LOGGER.info "params: #{params.inspect}"
+    RAILS_DEFAULT_LOGGER.info "params: #{@song.inspect}"
   end
 
   def get_artists
@@ -22,13 +27,9 @@ class MainController < ApplicationController
   end
 
   def next_random
-    artist = MusicFactory.all_music.keys[rand(MusicFactory.all_music.keys.size)]
-    album = MusicFactory.all_music[artist].keys[rand(MusicFactory.all_music[artist].keys.size)]
-    song = MusicFactory.all_music[artist][album][rand(MusicFactory.all_music[artist][album].size)]
-    song_info = "#{artist} - #{song} (#{album})"
-    RAILS_DEFAULT_LOGGER.info "Playing: #{song_info}"
-    DeleteRequest.create(:artist => artist, :album => album, :song => song) if params[:request_delete].to_i == 1
-    render :text => "music/#{artist}/#{album}/#{song}"
+    song = MusicFactory.all_songs.rand
+    RAILS_DEFAULT_LOGGER.info "Playing: #{song}"
+    render :text => song
   end
 
   def search
@@ -42,6 +43,9 @@ class MainController < ApplicationController
     render :text => "params: #{params.inspect}"
   end
 
+  def direct
+    index
+  end
 
   protected
   def log_delete_request

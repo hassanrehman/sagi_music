@@ -46,6 +46,8 @@ ActionController::Routing::Routes.draw do |map|
   map.next_random '/next_random', :controller => "main", :action => "next_random", :method => :get
   map.search '/search', :controller => "main", :action => "search", :method => :get
 
+  map.direct '/direct/:artist/:album/:song', :controller => "main", :action => "index", :requirements => { :artist => /.+/, :album => /.+/, :song => /.+/ }
+
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
 end

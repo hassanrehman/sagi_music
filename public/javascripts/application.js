@@ -22,7 +22,6 @@ function nextRandomSong(request_delete) {
             //$(div+' .bodytext').html("<br /><br /><img src='/images/loadinfo.gif'><a> Loading ... </a>");
         },
         success: function(data) {
-            tokens = data.split("/")
             playSong(data);
         },
         error: function( ) {
@@ -32,15 +31,17 @@ function nextRandomSong(request_delete) {
     });
 }
 
-//path is asumed to be  music/artist/album/song
+//path is asumed to be  /music/artist/album/song
 function playSong(path) {
     niftyplayer('nplayer').load(path);
     niftyplayer('nplayer').play();
-    tokens = path.split("/");
+    tokens = path.split("/");   //ignore the first ..  its always empty
     console.log(path);
-    $('#nowArtist').html(tokens[1]);
-    $('#nowAlbum').html(tokens[2]);
-    $('#nowSong').html(tokens[3]);
+    $('#nowArtist').html(tokens[2]);
+    $('#nowAlbum').html(tokens[3]);
+    $('#nowSong').html(tokens[4]);
+    info = tokens[2]+"/"+tokens[3]+"/"+tokens[4];
+    $('#nowDirectLink').html("<a href=\"/direct/"+info+"\">"+info+"</a>");
 }
 
 function locateSong( ) {
@@ -49,3 +50,4 @@ function locateSong( ) {
     loadSubPanel('#albumsMenu', "/get_albums/"+artist);
     loadSubPanel('#songsMenu', "/get_songs/"+artist+"/"+album);
 }
+

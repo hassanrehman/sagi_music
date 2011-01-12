@@ -1,1 +1,325 @@
 
+
+
+Processing MainController#index (for 10.10.10.26 at 2011-01-12 18:16:40) [GET]
+it takes 1.815439 seconds.
+params: {"action"=>"index", "controller"=>"main"}
+params: nil
+Rendering template within layouts/main
+Rendering main/index
+Completed in 1834ms (View: 16, DB: 0) | 200 OK [http://10.10.10.26/]
+
+
+Processing MainController#get_artists (for 10.10.10.26 at 2011-01-12 18:16:42) [GET]
+  Parameters: {"method"=>:get}
+Completed in 738ms (View: 737, DB: 0) | 200 OK [http://10.10.10.26/get_artists]
+
+
+Processing MainController#next_random (for 10.10.10.26 at 2011-01-12 18:16:44) [GET]
+  Parameters: {"method"=>:get}
+Playing: bade ghulam ali khan - 06 raga kedra-haveli nar.mp3 (ustad bade ghulam ali khan)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.26 at 2011-01-12 18:16:46) [GET]
+  Parameters: {"method"=>:get}
+Playing: Nickleback - This Is How You Remind Me.mp3 (Unknown Album)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.26 at 2011-01-12 18:16:49) [GET]
+  Parameters: {"method"=>:get}
+Playing: Natalie Cole - 02 This Will Be (An Everlasting Love).mp3 (Greatest Hits, Vol. 1)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.26 at 2011-01-12 18:16:53) [GET]
+  Parameters: {"method"=>:get}
+Playing: Composer_ Beethoven; Conductor_ Kleiber - Vienna Philharmonic - Symphony No. 7 In A Major , 2 Allegretto.mp3 (Beethoven Symphony No.7 in A Major)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing ApplicationController#index (for 10.10.10.26 at 2011-01-12 18:16:53) [GET]
+
+ActionController::RoutingError (No route matches "/music/Composer_%20Beethoven;%20Conductor_%20Kleiber%20-%20Vienna%20Philharmonic/Beethoven%20Symphony%20No.7%20in%20A%20Major/Symphony%20No.%207%20In%20A%20Major%20,%202%20Allegretto.mp3" with {:method=>:get}):
+  
+
+Rendering /Users/confiz/apps/sagi_music/public/404.html (404 Not Found)
+
+
+Processing MainController#next_random (for 10.10.10.26 at 2011-01-12 18:16:55) [GET]
+  Parameters: {"method"=>:get}
+Playing: The Rolling Stones - Play With Fire.mp3 (Hot Rocks 1964-1971 CD 1)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.26 at 2011-01-12 18:16:57) [GET]
+  Parameters: {"method"=>:get}
+Playing: Kelly Clarkson - 03 Behind These Hazel Eyes.mp3 (Breakaway)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.26 at 2011-01-12 18:16:59) [GET]
+  Parameters: {"method"=>:get}
+Playing: Bryan Adams - 09 Cloud Number Nine.mp3 (The Best Of Me)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.26 at 2011-01-12 18:17:01) [GET]
+  Parameters: {"method"=>:get}
+Playing: House 5.15 Unfaithful - 02 Cuddy's Serenade.mp3 (Unknown Album)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.26 at 2011-01-12 18:19:06) [GET]
+  Parameters: {"method"=>:get}
+Playing: Jennifer Paige - 01 Crush.mp3 (Jennifer Paige)
+Completed in 25ms (View: 25, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#index (for 10.10.10.26 at 2011-01-12 18:19:12) [GET]
+  Parameters: {"artist"=>"artist", "album"=>"title", "song"=>"12 zindagi mai to sabhi.mp3"}
+params: {"artist"=>"artist", "action"=>"index", "album"=>"title", "controller"=>"main", "song"=>"12 zindagi mai to sabhi.mp3"}
+params: "/music/artist/title/12 zindagi mai to sabhi.mp3"
+Rendering template within layouts/main
+Rendering main/index
+Completed in 7ms (View: 6, DB: 0) | 200 OK [http://10.10.10.26/direct/artist/title/12%20zindagi%20mai%20to%20sabhi.mp3]
+
+
+Processing MainController#get_artists (for 10.10.10.26 at 2011-01-12 18:19:13) [GET]
+  Parameters: {"method"=>:get}
+Completed in 741ms (View: 740, DB: 0) | 200 OK [http://10.10.10.26/get_artists]
+
+
+Processing MainController#index (for 10.10.10.155 at 2011-01-12 18:19:35) [GET]
+params: {"action"=>"index", "controller"=>"main"}
+params: nil
+Rendering template within layouts/main
+Rendering main/index
+Completed in 8ms (View: 7, DB: 0) | 200 OK [http://10.10.10.26/]
+
+
+Processing MainController#get_artists (for 10.10.10.155 at 2011-01-12 18:19:35) [GET]
+  Parameters: {"method"=>:get}
+Completed in 577ms (View: 576, DB: 0) | 200 OK [http://10.10.10.26/get_artists]
+
+
+Processing MainController#next_random (for 10.10.10.155 at 2011-01-12 18:19:37) [GET]
+  Parameters: {"method"=>:get}
+Playing: Adrian Enescu - 09 Invisible Movies 1.mp3 (Buddha Bar 3)
+Completed in 2ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#index (for 10.10.10.160 at 2011-01-12 18:19:43) [GET]
+  Parameters: {"artist"=>"artist", "album"=>"title", "song"=>"12 zindagi mai to sabhi.mp3"}
+params: {"artist"=>"artist", "action"=>"index", "album"=>"title", "controller"=>"main", "song"=>"12 zindagi mai to sabhi.mp3"}
+params: "/music/artist/title/12 zindagi mai to sabhi.mp3"
+Rendering template within layouts/main
+Rendering main/index
+Completed in 7ms (View: 6, DB: 0) | 200 OK [http://10.10.10.26/direct/artist/title/12%20zindagi%20mai%20to%20sabhi.mp3]
+
+
+Processing MainController#get_artists (for 10.10.10.160 at 2011-01-12 18:19:44) [GET]
+  Parameters: {"method"=>:get}
+Completed in 560ms (View: 559, DB: 0) | 200 OK [http://10.10.10.26/get_artists]
+
+
+Processing MainController#next_random (for 10.10.10.155 at 2011-01-12 18:24:06) [GET]
+  Parameters: {"method"=>:get}
+Playing: Cold - 12 Black Sunday.mp3 (Year Of The Spider)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#index (for 10.10.10.155 at 2011-01-12 18:24:06) [GET]
+params: {"action"=>"index", "controller"=>"main"}
+params: nil
+Rendering template within layouts/main
+Rendering main/index
+Completed in 7ms (View: 6, DB: 0) | 200 OK [http://10.10.10.26/]
+
+
+Processing MainController#get_artists (for 10.10.10.155 at 2011-01-12 18:24:07) [GET]
+  Parameters: {"method"=>:get}
+Completed in 595ms (View: 594, DB: 0) | 200 OK [http://10.10.10.26/get_artists]
+
+
+Processing MainController#next_random (for 10.10.10.155 at 2011-01-12 18:24:09) [GET]
+  Parameters: {"method"=>:get}
+Playing: Carey Ott - 02 Mother Madam.mp3 (Carey Ott)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#get_albums (for 10.10.10.155 at 2011-01-12 18:25:18) [GET]
+  Parameters: {"artist"=>"artist", "method"=>:get}
+Completed in 3ms (View: 3, DB: 0) | 200 OK [http://10.10.10.26/get_albums/artist]
+
+
+Processing MainController#get_songs (for 10.10.10.155 at 2011-01-12 18:25:18) [GET]
+  Parameters: {"artist"=>"artist", "method"=>:get, "album"=>"title"}
+Completed in 4ms (View: 4, DB: 0) | 200 OK [http://10.10.10.26/get_songs/artist/title]
+
+
+Processing MainController#get_albums (for 10.10.10.155 at 2011-01-12 18:25:35) [GET]
+  Parameters: {"artist"=>"_Unknown_", "method"=>:get}
+Completed in 3ms (View: 2, DB: 0) | 200 OK [http://10.10.10.26/get_albums/_Unknown_]
+
+
+Processing MainController#get_songs (for 10.10.10.155 at 2011-01-12 18:25:35) [GET]
+  Parameters: {"artist"=>"_Unknown_", "method"=>:get, "album"=>"_Unknown_"}
+Completed in 1ms (View: 1, DB: 0) | 200 OK [http://10.10.10.26/get_songs/_Unknown_/_Unknown_]
+
+
+Processing MainController#get_albums (for 10.10.10.155 at 2011-01-12 18:25:41) [GET]
+  Parameters: {"artist"=>"Zero 7", "method"=>:get}
+Completed in 8ms (View: 7, DB: 0) | 200 OK [http://10.10.10.26/get_albums/Zero%207]
+
+
+Processing MainController#get_songs (for 10.10.10.155 at 2011-01-12 18:25:43) [GET]
+  Parameters: {"artist"=>"Zero 7", "method"=>:get, "album"=>"all"}
+Completed in 76ms (View: 75, DB: 0) | 200 OK [http://10.10.10.26/get_songs/Zero%207/all]
+
+
+Processing MainController#next_random (for 10.10.10.160 at 2011-01-12 18:27:58) [GET]
+  Parameters: {"method"=>:get}
+regenerating library: 675.893771
+it takes 0.242868 seconds.
+Playing: Original Soundtrack - 10 Saddam Hussein - I Can Change.mp3 (South Park- Bigger, Longer, & Uncut)
+Completed in 244ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.155 at 2011-01-12 18:28:09) [GET]
+  Parameters: {"method"=>:get}
+Playing: Moody Blues - Looking For A Miracle In My Life.mp3 (Unknown Album)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.160 at 2011-01-12 18:30:06) [GET]
+  Parameters: {"method"=>:get}
+Playing: Cradle Of Filth - 04 A Gothic Romance (Red Roses For The Devil's Whore).mp3 (Dusk... And Her Embrace)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#index (for 10.10.10.26 at 2011-01-12 18:31:10) [GET]
+params: {"action"=>"index", "controller"=>"main"}
+params: nil
+Rendering template within layouts/main
+Rendering main/index
+Completed in 6ms (View: 5, DB: 0) | 200 OK [http://10.10.10.26/]
+
+
+Processing MainController#get_artists (for 10.10.10.26 at 2011-01-12 18:31:11) [GET]
+  Parameters: {"method"=>:get}
+Completed in 619ms (View: 618, DB: 0) | 200 OK [http://10.10.10.26/get_artists]
+
+
+Processing MainController#next_random (for 10.10.10.26 at 2011-01-12 18:31:13) [GET]
+  Parameters: {"method"=>:get}
+Playing: Rocky - 10 No Easy Way Out.mp3 (Greatest Hists)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.155 at 2011-01-12 18:33:55) [GET]
+  Parameters: {"method"=>:get}
+Playing: WWF - 10 Across The Nation (Raw Theme).mp3 (Forceable Entry)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#index (for 10.10.10.26 at 2011-01-12 18:34:56) [GET]
+params: {"action"=>"index", "controller"=>"main"}
+params: nil
+Rendering template within layouts/main
+Rendering main/index
+Completed in 7ms (View: 6, DB: 0) | 200 OK [http://10.10.10.26/]
+
+
+Processing MainController#get_artists (for 10.10.10.26 at 2011-01-12 18:34:56) [GET]
+  Parameters: {"method"=>:get}
+Completed in 686ms (View: 685, DB: 0) | 200 OK [http://10.10.10.26/get_artists]
+
+
+Processing MainController#next_random (for 10.10.10.26 at 2011-01-12 18:34:58) [GET]
+  Parameters: {"method"=>:get}
+Playing: Carlos Santana - Turn your lights on.mp3 (Unknown Album)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.155 at 2011-01-12 18:36:59) [GET]
+  Parameters: {"method"=>:get}
+Playing: Sukhwinder Singh - 02 Mann Chandre.mp3 (Connections 2009)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.155 at 2011-01-12 18:37:14) [GET]
+  Parameters: {"method"=>:get}
+Playing: Ali Hamza - Gawaalmandi Ke Siri Paye.mp3 (LUMS Unplugged)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.160 at 2011-01-12 18:38:42) [GET]
+  Parameters: {"method"=>:get}
+regenerating library: 644.091782
+it takes 0.138471 seconds.
+Playing: Nice And Easy Series.1 - 08 Because I Love You.mp3 (Nice And Easy Series.1)
+Completed in 140ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.155 at 2011-01-12 18:39:43) [GET]
+  Parameters: {"method"=>:get}
+Playing: Six Feet Under - Beneath A Black Sky.mp3 (Mix)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.160 at 2011-01-12 18:42:00) [GET]
+  Parameters: {"method"=>:get}
+Playing: Augustana - 04 Boston.mp3 (All The Stars And Boulevards)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.155 at 2011-01-12 18:42:35) [GET]
+  Parameters: {"method"=>:get}
+Playing: Shrek - 07 I Need Some Sleep.mp3 (Shrek 2 Soundtrack)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.155 at 2011-01-12 18:45:05) [GET]
+  Parameters: {"method"=>:get}
+Playing: Whitesnake - 03 Still Of The Night.mp3 (Whitesnake)
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.160 at 2011-01-12 18:46:18) [GET]
+  Parameters: {"method"=>:get}
+Playing: POP - Tera Mera PYar.MP3 (Unknown Album)
+Completed in 2ms (View: 1, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#index (for 10.10.10.26 at 2011-01-12 18:50:00) [GET]
+it takes 2.01351 seconds (3492 songs).
+params: {"action"=>"index", "controller"=>"main"}
+params: nil
+Rendering template within layouts/main
+Rendering main/index
+Completed in 2033ms (View: 17, DB: 0) | 200 OK [http://10.10.10.26/]
+
+
+Processing MainController#get_artists (for 10.10.10.26 at 2011-01-12 18:50:02) [GET]
+  Parameters: {"method"=>:get}
+Completed in 644ms (View: 643, DB: 0) | 200 OK [http://10.10.10.26/get_artists]
+
+
+Processing MainController#next_random (for 10.10.10.26 at 2011-01-12 18:50:04) [GET]
+  Parameters: {"method"=>:get}
+Playing: /music/Buddah Bar/Karma Collection (Disc 2)/09 Rah.mp3
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.26 at 2011-01-12 18:50:39) [GET]
+  Parameters: {"method"=>:get}
+Playing: /music/R.E.M_/Automatic For The People/01 Drive.mp3
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.155 at 2011-01-12 18:50:41) [GET]
+  Parameters: {"method"=>:get}
+Playing: /music/Meditative Music/Buddha Bar - Dream-Oliver Shanti/Mother Earth's Tartaruga Song.mp3
+Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]

@@ -8,14 +8,17 @@ class MusicFactory
     if defined?(@@all_music)
       if Time.now - @@all_music_time > 10.minutes
         RAILS_DEFAULT_LOGGER.info "regenerating library: #{Time.now - @@all_music_time}"
-        @@all_music = generate_library
-        @@all_music_time = Time.now
+        generate_library
       end
     else
-      @@all_music = generate_library
-      @@all_music_time = Time.now
+      generate_library
     end
     @@all_music
+  end
+
+  def self.all_songs
+    generate_library unless defined?(@@all_songs)
+    @@all_songs
   end
 
   def self.generate_library
@@ -28,9 +31,12 @@ class MusicFactory
         album = album_path["#{artist_path}/".length..-1]
         all_music[artist][album] = Dir["#{album_path}/*"].map{|sp| sp["#{album_path}/".length..-1] }
       end
-    end
-    RAILS_DEFAULT_LOGGER.info "it takes #{Time.now - start_time} seconds."
-    return all_music
+    end; puts 1
+    @@all_music = all_music
+    @@all_music_time = Time.now
+    @@all_songs = Dir["#{MAIN_DIR}/*/*/*"].flatten.uniq.map{|sp| sp["public".length..-1] }
+    RAILS_DEFAULT_LOGGER.info "it takes #{Time.now - start_time} seconds (#{@@all_songs.size} songs)."
+    puts "it takes #{Time.now - start_time} seconds (#{@@all_songs.size} songs)."
   end
   
   def self.create_logger(filename)
