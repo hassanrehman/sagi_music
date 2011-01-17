@@ -323,3 +323,176 @@ Processing MainController#next_random (for 10.10.10.155 at 2011-01-12 18:50:41) 
   Parameters: {"method"=>:get}
 Playing: /music/Meditative Music/Buddha Bar - Dream-Oliver Shanti/Mother Earth's Tartaruga Song.mp3
 Completed in 1ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#index (for 10.10.10.26 at 2011-01-17 11:41:37) [GET]
+Rendering template within layouts/main
+Rendering main/index
+Completed in 16ms (View: 15, DB: 0) | 200 OK [http://10.10.10.26/]
+
+
+Processing MainController#get_artists (for 10.10.10.26 at 2011-01-17 11:41:39) [GET]
+  Parameters: {"method"=>:get}
+Completed in 549ms (View: 535, DB: 6) | 200 OK [http://10.10.10.26/get_artists]
+
+
+Processing MainController#next_random (for 10.10.10.26 at 2011-01-17 11:41:41) [GET]
+  Parameters: {"method"=>:get}
+Playing: /music/12 Stones/Potter's Field/07 Photograph.mp3
+Completed in 8ms (View: 0, DB: 5) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#index (for 10.10.10.160 at 2011-01-17 11:51:23) [GET]
+Rendering template within layouts/main
+Rendering main/index
+Completed in 5ms (View: 5, DB: 0) | 200 OK [http://10.10.10.26/]
+
+
+Processing MainController#get_artists (for 10.10.10.160 at 2011-01-17 11:51:24) [GET]
+  Parameters: {"method"=>:get}
+Completed in 472ms (View: 463, DB: 1) | 200 OK [http://10.10.10.26/get_artists]
+
+
+Processing MainController#next_random (for 10.10.10.160 at 2011-01-17 11:51:26) [GET]
+  Parameters: {"method"=>:get}
+Playing: /music/Soundtracks/Unknown Album/eat your potatoes.mp3
+Completed in 2ms (View: 0, DB: 1) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#search (for 10.10.10.160 at 2011-01-17 11:51:44) [GET]
+  Parameters: {"q"=>"ludvico"}
+Completed in 6ms (View: 1, DB: 5) | 200 OK [http://10.10.10.26/main/search?q=ludvico]
+
+
+Processing MainController#search (for 10.10.10.160 at 2011-01-17 11:51:50) [GET]
+  Parameters: {"q"=>"ludvico"}
+Completed in 4ms (View: 0, DB: 3) | 200 OK [http://10.10.10.26/main/search?q=ludvico]
+
+
+Processing MainController#search (for 10.10.10.160 at 2011-01-17 11:51:54) [GET]
+  Parameters: {"q"=>"ludvico"}
+Completed in 6ms (View: 1, DB: 5) | 200 OK [http://10.10.10.26/main/search?q=ludvico]
+
+
+Processing MainController#search (for 10.10.10.160 at 2011-01-17 11:52:08) [GET]
+  Parameters: {"q"=>"ali"}
+Completed in 18ms (View: 15, DB: 1) | 200 OK [http://10.10.10.26/main/search?q=ali]
+
+
+Processing MainController#search (for 10.10.10.160 at 2011-01-17 11:52:12) [GET]
+  Parameters: {"q"=>"Ludvico"}
+Completed in 6ms (View: 1, DB: 5) | 200 OK [http://10.10.10.26/main/search?q=Ludvico]
+
+
+Processing MainController#search (for 10.10.10.26 at 2011-01-17 11:52:14) [GET]
+  Parameters: {"q"=>"yulunga"}
+Completed in 6ms (View: 2, DB: 3) | 200 OK [http://10.10.10.26/main/search?q=yulunga]
+
+
+Processing MainController#search (for 10.10.10.160 at 2011-01-17 11:52:43) [GET]
+  Parameters: {"q"=>"Ludovico"}
+Completed in 13ms (View: 7, DB: 5) | 200 OK [http://10.10.10.26/main/search?q=Ludovico]
+
+
+Processing MainController#next_random (for 10.10.10.26 at 2011-01-17 11:59:08) [GET]
+  Parameters: {"method"=>:get}
+Playing: /music/FLOW RiDER/FLOW RiDER/03 APPLE BOTTOM JEANS.mp3
+Completed in 2ms (View: 0, DB: 1) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.160 at 2011-01-17 12:00:18) [GET]
+  Parameters: {"method"=>:get}
+Playing: /music/Frédéric Chopin/Chopin_ Piano Music/15 Chopin_ Waltz #6 In D Flat, Op. 64_1, _Minute_.mp3
+Completed in 2ms (View: 0, DB: 1) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing ApplicationController#index (for 10.10.10.160 at 2011-01-17 12:00:18) [GET]
+
+ActionController::RoutingError (No route matches "/music/Fre" with {:method=>:get}):
+  
+
+Rendering /Users/confiz/apps/sagi_music/public/404.html (404 Not Found)
+
+
+Processing MainController#next_random (for 10.10.10.26 at 2011-01-17 12:03:02) [GET]
+  Parameters: {"method"=>:get}
+Playing: /music/Hans Zimmer/Pirates Of The Caribbean_ At World's End/02 Singapore.mp3
+Completed in 2ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.160 at 2011-01-17 12:06:28) [GET]
+  Parameters: {"method"=>:get}
+Playing: /music/Led Zeppelin/Led Zeppelin IV/07 Going To California.mp3
+Completed in 2ms (View: 0, DB: 1) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.26 at 2011-01-17 12:06:44) [GET]
+  Parameters: {"method"=>:get}
+Playing: /music/Sepultura/Roots Bloody Roots/Ratamahatta.mp3
+Completed in 2ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.160 at 2011-01-17 12:10:00) [GET]
+  Parameters: {"method"=>:get}
+Playing: /music/Avril Lavigne/Let Go/04 I'm With You.mp3
+Completed in 3ms (View: 0, DB: 1) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.160 at 2011-01-17 12:13:28) [GET]
+  Parameters: {"method"=>:get}
+Playing: /music/Pink Floyd/Is There Anybody Out There_ The Wall Live 1980-81 (Disc 2)/2-03 Nobody Home.mp3
+Completed in 2ms (View: 0, DB: 0) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.160 at 2011-01-17 12:16:44) [GET]
+  Parameters: {"method"=>:get}
+Playing: /music/Dave Matthews Band/Under The Table And Dreaming/04 Rhyme & Reason.mp3
+Completed in 2ms (View: 0, DB: 1) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#next_random (for 10.10.10.160 at 2011-01-17 12:22:02) [GET]
+  Parameters: {"method"=>:get}
+Playing: /music/Lionel Richie/Can't Slow Down/08 Hello.mp3
+Completed in 2ms (View: 0, DB: 1) | 200 OK [http://10.10.10.26/next_random]
+
+
+Processing MainController#index (for 10.10.10.160 at 2011-01-17 12:22:55) [GET]
+  Parameters: {"artist"=>"Lionel Richie", "album"=>"Can't Slow Down", "song"=>"08 Hello.mp3"}
+Rendering template within layouts/main
+Rendering main/index
+Completed in 7ms (View: 5, DB: 0) | 200 OK [http://10.10.10.26/direct/Lionel%20Richie/Can%27t%20Slow%20Down/08%20Hello.mp3]
+
+
+Processing MainController#get_artists (for 10.10.10.160 at 2011-01-17 12:22:56) [GET]
+  Parameters: {"method"=>:get}
+Completed in 737ms (View: 726, DB: 2) | 200 OK [http://10.10.10.26/get_artists]
+
+
+Processing MainController#index (for 10.10.10.26 at 2011-01-17 12:23:00) [GET]
+  Parameters: {"artist"=>"Lionel Richie", "album"=>"Can't Slow Down", "song"=>"08 Hello.mp3"}
+Rendering template within layouts/main
+Rendering main/index
+Completed in 5ms (View: 5, DB: 0) | 200 OK [http://10.10.10.26/direct/Lionel%20Richie/Can%27t%20Slow%20Down/08%20Hello.mp3]
+
+
+Processing MainController#get_artists (for 10.10.10.26 at 2011-01-17 12:23:00) [GET]
+  Parameters: {"method"=>:get}
+Completed in 600ms (View: 590, DB: 2) | 200 OK [http://10.10.10.26/get_artists]
+
+
+Processing MainController#index (for 10.10.10.26 at 2011-01-17 12:26:51) [GET]
+  Parameters: {"artist"=>"Lionel Richie", "album"=>"Can't Slow Down", "song"=>"08 Hello.mp3"}
+Rendering template within layouts/main
+Rendering main/index
+Completed in 16ms (View: 14, DB: 0) | 200 OK [http://10.10.10.26/direct/Lionel%20Richie/Can%27t%20Slow%20Down/08%20Hello.mp3]
+
+
+Processing MainController#get_artists (for 10.10.10.26 at 2011-01-17 12:26:51) [GET]
+  Parameters: {"method"=>:get}
+Completed in 556ms (View: 542, DB: 7) | 200 OK [http://10.10.10.26/get_artists]
+
+
+Processing MainController#next_random (for 10.10.10.160 at 2011-01-17 12:27:08) [GET]
+  Parameters: {"method"=>:get}
+Playing: /music/Pink Floyd/Is There Anybody Out There (The Wall Live 1980-81) CD1/15 The Last Few Bricks.mp3
+Completed in 9ms (View: 0, DB: 6) | 200 OK [http://10.10.10.26/next_random]

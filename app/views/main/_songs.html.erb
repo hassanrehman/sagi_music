@@ -1,14 +1,11 @@
 <%
-songs = []
-albums.each do |k,v|
-  v.each do |song|
-    path = "/music/#{artist}/#{k}/#{song}"
-    songs << link_to(song, "javascript:;",
-                :onclick => "playSong(\"#{path}\", \"#{artist} - #{song}\");")
-  end
+song_links = []
+songs.each do |song|
+  song_links << link_to(song.name, "javascript:;",
+    :onclick => "playSong(\"#{song.full_path}\");")
 end
 %>
-<%= songs.sort.join(", ") %>
+<%= song_links.join(", ") %>
 
 
 

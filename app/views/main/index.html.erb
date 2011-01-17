@@ -19,21 +19,21 @@
     <div id="menu" align="right">
       <div align="right" style="width:189px; height:8px;"><img src="/images/mnu_topshadow.gif" width="189" height="8" alt="mnutopshadow" /></div>
       <div id="mainMenu" class="linksmenu" align="center">
-        <%= link_to "Playing Now", "javascript:;", :title=>"Artists", :onclick => "$('#playingNow').toggle('fast');" %>
+	<%if false%>
+        <%= link_to "Playing Now >>  ", "javascript:;", :title=>"Artists", :onclick => "$('#playingNow').toggle('fast');", :style => "text-align: right" %>
         <div id="playingNow" style="display:none">
           <%= link_to "Playing Now", "javascript:;", :title=>"Artists" %>
           <%= link_to "Playing Now", "javascript:;", :title=>"Artists" %>
-          <%= link_to "Playing Now", "javascript:;", :title=>"Artists" %>
-          <%= link_to "Playing Now", "javascript:;", :title=>"Artists" %>
         </div>
-        <%= link_to "Search", "javascript:;", :onclick => "$('#searchText').toggle(); $('#search_keyword').focus();" %>
+	<% end %>
+        <%= link_to "Search", "javascript:;", :onclick => "$('#searchText').toggle(); $('#search_keyword').focus();", :style => "text-align: center" %>
         <div id="searchText" style="display:none">
-          <form action="javascript:;" onsubmit="loadSearchResults('search_keyword', 'search_results'); return false;">
+          <form action="javascript:;" onsubmit="loadSearchResults('#search_keyword', '#search_results'); return false;">
             <input type="text" name="search_keyword" id="search_keyword" />
           </form>
         </div>
         <div id="search_results" style="display:block">
-
+          
         </div>
       </div>
       <div align="right" style="width:189px; height:8px;"><img src="/images/mnu_bottomshadow.gif" width="189" height="8" alt="mnubottomshadow" /></div>
@@ -50,7 +50,7 @@
                type="application/x-shockwave-flash" swLiveConnect="true"
                pluginspage="http://www.macromedia.com/go/getflashplayer">
         </embed> <br />
-        <%= link_to "Next Random", "javascript:;", :onclick => "nextRandomSong(0);" %> |
+        <%= link_to "Next Random", "javascript:;", :onclick => "nextRandomSong();" %> |
         <%#= link_to "Delete and Next Random", "javascript:;", :onclick => "nextRandomSong(1);" %>
         <%= link_to "Locate Song", "javascript:;", :onclick => "locateSong();" %>
       </div>
@@ -61,7 +61,7 @@
     <script type="text/javascript">
       $(document).ready(function(){
         loadSubPanel('#artistsMenu', '<%=artists_path%>');
-        <%= "setTimeout( \"playSong(\\\"#{@song}\\\");\", 1000)" if @song %>
+        <%if @song%> setTimeout( "playSong(\"<%=@song%>\");", 1000); <%end%>
         setInterval("if( /finished|error|empty/.test( niftyplayer('nplayer').getState() )) nextRandomSong();", 2000);
       });
     </script>

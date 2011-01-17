@@ -1,15 +1,13 @@
 function loadSearchResults(keyword_id, update_id) {
-  keyword = $(keyword_id).value;
-
+  keyword = $(keyword_id).val();
   $.ajax({
-        url: '/main/search',
-        params: { q: keyword },
+        url: '/main/search?q='+keyword,
         beforeSend: function() {
             //$(div+' .bodytext').html("<br /><br /><img src='/images/loadinfo.gif'><a> Loading ... </a>");
         },
         success: function(data) {
           //$(update_id).replace(data);
-        document.getElementById(update_id).innerHTML = data;
+          $(update_id).html(data);
         },
         error: function( ) {
             //$(div+' .bodytext').html("<br /><br /> Whooops .. something went wrong");
@@ -62,6 +60,7 @@ function playSong(path) {
     $('#nowSong').html(tokens[4]);
     info = tokens[2]+"/"+tokens[3]+"/"+tokens[4];
     $('#nowDirectLink').html("<a href=\"/direct/"+info+"\">"+info+"</a>");
+    $('title').html(tokens[2]+" - "+tokens[4]);
 }
 
 function locateSong( ) {

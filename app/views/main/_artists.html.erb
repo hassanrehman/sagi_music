@@ -1,6 +1,6 @@
 <%= 
 artists.collect do |a|
-  link_to a, "javascript:;", 
-    :onclick => "$('#songsMenu').hide('fast'); loadSubPanel('#albumsMenu', \"#{albums_path(a)}\");"
+  link_to a.name, "javascript:;",
+    :onclick => "$('#songsMenu').hide('fast'); loadSubPanel('#albumsMenu', \"#{albums_path(a.id)}\");"
 end.join(", ")
 %>

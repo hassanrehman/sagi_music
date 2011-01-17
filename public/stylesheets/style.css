@@ -134,15 +134,16 @@ body {
 
 .linksmenu a{
 	float:right; 
-	width:183px; 
-	height:20px; 
+	width:180px;
+/*	height:20px;*/
 	background-color:#ABC578; border-left:solid 1px #FFFFFF; border-bottom:solid 1px #FFFFFF;
 	font: 0.7em Tahoma, sans-serif;
 	font-size: 11px;
 	font-weight:bold;
 	color: #FFFFFF;
 	text-decoration:none;
-	padding-top:5px;
+	padding: 5px 0 5px 3px;
+        text-align: left;
 }
 
 .linksmenu a:hover{

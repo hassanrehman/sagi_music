@@ -9,12 +9,33 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110110120150) do
+ActiveRecord::Schema.define(:version => 20110116192647) do
+
+  create_table "albums", :force => true do |t|
+    t.string   "name"
+    t.integer  "artist_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "artists", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "delete_requests", :force => true do |t|
     t.string   "artist"
     t.string   "album"
     t.string   "song"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "songs", :force => true do |t|
+    t.string   "name"
+    t.integer  "album_id"
+    t.string   "full_path"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
