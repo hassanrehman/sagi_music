@@ -33,13 +33,6 @@ class MainController < ApplicationController
   end
 
   def search
-#    respond_to do |format|
-#      format.js {
-#        render :update do |page|
-#          page.replace_html "search_results", "sjdh"
-#        end
-#      }
-#    end
     render :text => "params: #{params.inspect}"
   end
 

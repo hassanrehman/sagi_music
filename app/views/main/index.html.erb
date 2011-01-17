@@ -28,15 +28,13 @@
         </div>
         <%= link_to "Search", "javascript:;", :onclick => "$('#searchText').toggle(); $('#search_keyword').focus();" %>
         <div id="searchText" style="display:none">
-          <% form_remote_tag :url => search_path,
-            :update => "search_results" do %>
-            <%= text_field_tag "search_keyword" %>
-        
+          <form action="javascript:;" onsubmit="loadSearchResults('search_keyword', 'search_results'); return false;">
+            <input type="text" name="search_keyword" id="search_keyword" />
+          </form>
         </div>
         <div id="search_results" style="display:block">
 
         </div>
-        <% end %>
       </div>
       <div align="right" style="width:189px; height:8px;"><img src="/images/mnu_bottomshadow.gif" width="189" height="8" alt="mnubottomshadow" /></div>
     </div>
