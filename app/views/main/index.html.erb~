@@ -1,0 +1,73 @@
+<div id="page" align="center">
+  <div id="toppage" align="center">
+    <div id="date">
+      <div class="smalltext" style="padding:13px;"><strong><%=Time.now.strftime("%B %d, %Y")%></strong></div>
+    </div>
+    <div id="topbar">
+      <div align="right" style="padding:12px;" class="smallwhitetext"><%=link_to "Home", root_url%> | <a href="#">Sitemap</a> | <a href="#">Contact Us</a></div>
+    </div>
+  </div>
+  <div id="header" align="center">
+    <div class="titletext" id="logo">
+      <div class="logotext" style="margin:30px">Mu<span class="orangelogotext">$</span>ic</div>
+    </div>
+    <div id="pagetitle">
+      <div id="title" class="titletext" align="right">Welcome to muSic!</div>
+    </div>
+  </div>
+  <div id="content" align="center">
+    <div id="menu" align="right">
+      <div align="right" style="width:189px; height:8px;"><img src="/images/mnu_topshadow.gif" width="189" height="8" alt="mnutopshadow" /></div>
+      <div id="mainMenu" class="linksmenu" align="center">
+        <%= link_to "Playing Now >>  ", "javascript:;", :title=>"Artists", :onclick => "$('#playingNow').toggle('fast');", :style => "text-align: right" %>
+        <div id="playingNow" style="display:none">
+          <%= link_to "Playing Now", "javascript:;", :title=>"Artists" %>
+          <%= link_to "Playing Now", "javascript:;", :title=>"Artists" %>
+        </div>
+        <%= link_to "Search", "javascript:;", :onclick => "$('#searchText').toggle(); $('#search_keyword').focus();", :style => "text-align: center" %>
+        <div id="searchText" style="display:none">
+          <form action="javascript:;" onsubmit="loadSearchResults('#search_keyword', '#search_results'); return false;">
+            <input type="text" name="search_keyword" id="search_keyword" />
+          </form>
+        </div>
+        <div id="search_results" style="display:block">
+          
+        </div>
+      </div>
+      <div align="right" style="width:189px; height:8px;"><img src="/images/mnu_bottomshadow.gif" width="189" height="8" alt="mnubottomshadow" /></div>
+    </div>
+    <div id="contenttext">
+      <div class="bodytext" style="padding:12px;" align="justify">
+        <strong>Artist: </strong><span id="nowArtist"></span><br />
+        <strong>Album: </strong><span id="nowAlbum"></span><br />
+        <strong>Song: </strong><span id="nowSong"></span><br />
+        <strong>Direct Link: </strong><span id="nowDirectLink"></span><br />
+        <br />
+        <embed src="/niftyplayer.swf" quality=high bgcolor=#FFFFFF
+               width="165" height="37" name="nplayer" align=""
+               type="application/x-shockwave-flash" swLiveConnect="true"
+               pluginspage="http://www.macromedia.com/go/getflashplayer">
+        </embed> <br />
+        <%= link_to "Next Random", "javascript:;", :onclick => "nextRandomSong();" %> |
+        <%#= link_to "Delete and Next Random", "javascript:;", :onclick => "nextRandomSong(1);" %>
+        <%= link_to "Locate Song", "javascript:;", :onclick => "locateSong();" %>
+      </div>
+      <%= render :partial => "panel", :locals => {:div_id => "artistsMenu", :title => "Artists"}  %>
+      <%= render :partial => "panel", :locals => {:div_id => "albumsMenu", :title => "Albums"}  %>
+      <%= render :partial => "panel", :locals => {:div_id => "songsMenu", :title => "Songs"}  %>
+    </div>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        loadSubPanel('#artistsMenu', '<%=artists_path%>');
+        <%if @song%> setTimeout( "playSong(\"<%=@song%>\");", 1000); <%end%>
+        setInterval("if( /finished|error|empty/.test( niftyplayer('nplayer').getState() )) nextRandomSong();", 2000);
+      });
+    </script>
+  </div>
+  
+  <div id="footer" class="smallgraytext" align="center">
+    <a href="#">Home</a> | <a href="#">About Us</a> | <a href="#">Products</a> | <a href="#">Our Services</a> | <a href="#">Contact Us</a><br />
+			saGi loCal Mu$ic Repo &copy; <%=Time.now.year%><br />
+    <a>Hosting Colombia</a><br />
+  </div>
+</div>
