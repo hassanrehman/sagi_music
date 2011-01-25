@@ -3,6 +3,14 @@
 #this is junk
 class MusicFactory
   MAIN_DIR = "public/music"
+  EXCLUDE_DIRS = /^(\.|\.\.|\.ds.store)$/i
+
+
+  def self.get_dirs(path)
+    Dir.new(path).entries.select do |name|
+      not EXCLUDE_DIRS =~ name and File.directory?("#{path}/#{name}")
+    end
+  end
 
   def self.init_library
     puts "STARTING GENERATION"
@@ -10,63 +18,24 @@ class MusicFactory
     Artist.connection.execute("TRUNCATE TABLE artists")
     Album.connection.execute("TRUNCATE TABLE albums")
     Song.connection.execute("TRUNCATE TABLE songs")
-    
-    Dir["#{MAIN_DIR}/*"].each do |artist_path|
-      artist_name = artist_path["#{MAIN_DIR}/".length..-1]
+
+    song_path_pre = MAIN_DIR.gsub("public", "")
+    c = 0
+    get_dirs(MAIN_DIR).each do |artist_name|
       a = Artist.new(:name => artist_name)
-      Dir["#{artist_path}/*"].each do |album_path|
-        album_name = album_path["#{artist_path}/".length..-1]
+      get_dirs("#{MAIN_DIR}/#{artist_name}").each do |album_name|
         album = Album.new(:name => album_name)
-        album.songs = Dir["#{album_path}/*"].map do |sp|
-          name = sp["#{album_path}/".length..-1]
-          path = sp["public".length..-1]
-          Song.new( :name => name, :full_path => path )
-        end
+        album.songs = Dir.new("#{MAIN_DIR}/#{artist_name}/#{album_name}").entries.select do |song_name|
+          File.file?("#{MAIN_DIR}/#{artist_name}/#{album_name}/#{song_name}")
+        end.collect{ |song_name| Song.new( :name => song_name, :full_path => "#{song_path_pre}/#{artist_name}/#{album_name}/#{song_name}" ) }
+        c += album.songs.size
         a.albums << album
       end
-      a.save
+      a.save!
     end
-    puts "COMPLETED IN #{Time.now - start_time}"
+    puts "GENERATED #{c} SONGS IN #{Time.now - start_time}"
   end
 
-  #deprecated
-  def self.all_music
-    if defined?(@@all_music)
-      if Time.now - @@all_music_time > 10.minutes
-        RAILS_DEFAULT_LOGGER.info "regenerating library: #{Time.now - @@all_music_time}"
-        generate_library
-      end
-    else
-      generate_library
-    end
-    @@all_music
-  end
-
-  #deprecated
-  def self.all_songs
-    generate_library unless defined?(@@all_songs)
-    @@all_songs
-  end
-
-  #deprecated
-  def self.generate_library
-    start_time = Time.now
-    all_music = {}
-    Dir["#{MAIN_DIR}/*"].each do |artist_path|
-      artist = artist_path["#{MAIN_DIR}/".length..-1]
-      all_music[artist] = {}
-      Dir["#{artist_path}/*"].each do |album_path|
-        album = album_path["#{artist_path}/".length..-1]
-        all_music[artist][album] = Dir["#{album_path}/*"].map{|sp| sp["#{album_path}/".length..-1] }
-      end
-    end
-    @@all_music = all_music
-    @@all_music_time = Time.now
-    @@all_songs = Dir["#{MAIN_DIR}/*/*/*"].flatten.uniq.map{|sp| sp["public".length..-1] }
-    RAILS_DEFAULT_LOGGER.info "it takes #{Time.now - start_time} seconds (#{@@all_songs.size} songs)."
-    puts "it takes #{Time.now - start_time} seconds (#{@@all_songs.size} songs)."
-  end
-  
   def self.create_logger(filename)
     log_file = File.open("#{RAILS_ROOT}/log/#{filename}", 'a+')
     log_file.sync = true

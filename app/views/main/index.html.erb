@@ -19,7 +19,7 @@
     <div id="menu" align="right">
       <div align="right" style="width:189px; height:8px;"><img src="/images/mnu_topshadow.gif" width="189" height="8" alt="mnutopshadow" /></div>
       <div id="mainMenu" class="linksmenu" align="center">
-	<%if false%>
+	<%if false  #dunno what to put here yet %>
         <%= link_to "Playing Now >>  ", "javascript:;", :title=>"Artists", :onclick => "$('#playingNow').toggle('fast');", :style => "text-align: right" %>
         <div id="playingNow" style="display:none">
           <%= link_to "Playing Now", "javascript:;", :title=>"Artists" %>
@@ -40,9 +40,9 @@
     </div>
     <div id="contenttext">
       <div class="bodytext" style="padding:12px;" align="justify">
-        <strong>Artist: </strong><span id="nowArtist"></span><br />
-        <strong>Album: </strong><span id="nowAlbum"></span><br />
-        <strong>Song: </strong><span id="nowSong"></span><br />
+        <%=check_box_tag 'stickyArtist',"",false, :onclick => "toggleSticky(this);"%><strong>Artist: </strong><span id="nowArtist"></span><br />
+        <%=check_box_tag 'stickyAlbum',"",false, :onclick => "toggleSticky(this);"%><strong>Album: </strong><span id="nowAlbum"></span><br />
+        <%=check_box_tag 'stickySong',"",false, :onclick => "toggleSticky(this);"%><strong>Song: </strong><span id="nowSong"></span><br />
         <strong>Direct Link: </strong><span id="nowDirectLink"></span><br />
         <br />
         <embed src="/niftyplayer.swf" quality=high bgcolor=#FFFFFF

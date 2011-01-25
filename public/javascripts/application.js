@@ -33,20 +33,26 @@ function loadSubPanel(div, url) {
 }
 
 function nextRandomSong(request_delete) {
-    $.ajax({
-        url: '/next_random',
-        params: {request_delete: request_delete},
-        beforeSend: function() {
-            //$(div+' .bodytext').html("<br /><br /><img src='/images/loadinfo.gif'><a> Loading ... </a>");
-        },
-        success: function(data) {
-            playSong(data);
-        },
-        error: function( ) {
-            //$(div+' .bodytext').html("<br /><br /> Whooops .. something went wrong");
-            console.log('shit');
-        }
-    });
+    if( $('#stickySong').attr('checked') ) {
+        playSong($('#nowDirectLink a').attr('href').replace('direct', 'music'));
+    }
+    else {
+        //TODO: send params as artist and/or album ids to select next random
+        $.ajax({
+            url: '/next_random',
+            params: {request_delete: request_delete},
+            beforeSend: function() {
+                //$(div+' .bodytext').html("<br /><br /><img src='/images/loadinfo.gif'><a> Loading ... </a>");
+            },
+            success: function(data) {
+                playSong(data);
+            },
+            error: function( ) {
+                //$(div+' .bodytext').html("<br /><br /> Whooops .. something went wrong");
+                console.log('shit');
+            }
+        });
+    }
 }
 
 //path is asumed to be  /music/artist/album/song
@@ -63,9 +69,32 @@ function playSong(path) {
     $('title').html(tokens[2]+" - "+tokens[4]);
 }
 
-function locateSong( ) {
+function locateSong() {
     artist = $('#nowArtist').html();
     album = $('#nowAlbum').html();
     loadSubPanel('#albumsMenu', "/get_albums/"+artist);
     loadSubPanel('#songsMenu', "/get_songs/"+artist+"/"+album);
+}
+
+function toggleSticky(field) {
+    if( $(field).attr('id') == 'stickyArtist'  ) {
+        if( !$(field).attr('checked') ) {
+            $('#stickyAlbum').attr('checked', false);
+            $('#stickySong').attr('checked', false);
+        }
+    }
+    else if( $(field).attr('id') == 'stickyAlbum'  ) {
+        if( $(field).attr('checked') ) {
+            $('#stickyArtist').attr('checked', true);
+        }
+        else {
+            $('#stickySong').attr('checked', false);
+        }
+    }
+    else if( $(field).attr('id') == 'stickySong'  ) {
+        if( $(field).attr('checked') ) {
+            $('#stickyArtist').attr('checked', true);
+            $('#stickyAlbum').attr('checked', true);
+        }
+    }
 }
