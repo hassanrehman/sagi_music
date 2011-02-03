@@ -5,7 +5,7 @@ class MainController < ApplicationController
 
   def index
     #@all_artists = Artist.all.map(&:name)
-    @song = "/music/#{params[:artist]}/#{params[:album]}/#{params[:song]}" if params["song"]
+    @song = Song.find_by_id(params[:song_id], :include => {:album => :artist})
   end
   
   def direct
@@ -21,12 +21,13 @@ class MainController < ApplicationController
     if albums.blank?
       render :text => "no albums found."
     else
-      render :partial => "albums", :locals => {:artist_id => params[:artist_id].to_i, :albums => albums}
+      more_params = params[:ignore_single_album] ? {:ignore_single_album => 1} : {}
+      render :partial => "albums", :locals => {:albums => albums}.merge(more_params)
     end
   end
 
   def get_songs_by_album
-    songs = Song.find_all_by_album_id(params[:album_id].to_i)
+    songs = Song.find_all_by_album_id(params[:album_id].to_i, :include => {:album => :artist})
     if songs.blank?
       render :text => "no songs found."
     else
@@ -35,7 +36,7 @@ class MainController < ApplicationController
   end
 
   def get_songs_by_artist
-    albums = Album.find_all_by_artist_id(params[:artist_id].to_i)
+    albums = Album.find_all_by_artist_id(params[:artist_id].to_i, :include => {:album => :artist})
     if albums.blank?
       render :text => "no songs found."
     else
@@ -49,9 +50,9 @@ class MainController < ApplicationController
   end
 
   def next_random
-    song = Song.find(rand(Song.maximum(:id)+1))
+    song = Song.find(rand(Song.maximum(:id)+1), :include => {:album => :artist})
     RAILS_DEFAULT_LOGGER.info "Playing: #{song.full_path}"
-    render :text => song.full_path
+    render :json => song.web_info
   end
 
   def search
@@ -60,7 +61,7 @@ class MainController < ApplicationController
 
     render :text => "" and return if keyword.blank?
 
-    results = Song.all(:conditions => [ "full_path like ?", "%#{keyword}%" ],
+    results = Song.all(:conditions => [ "full_path like ?", "%#{keyword}%"], :include => {:album => :artist},
       :limit => MAX_RESULTS, :offset => page*MAX_RESULTS)
     render :partial => "search_results", :collection => results, :locals => {:page => page}
   end

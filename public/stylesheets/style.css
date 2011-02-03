@@ -62,7 +62,13 @@ body {
 	padding:10px;
 	width:550px;
 	height:160px;
-        overflow: scroll;
+/*        overflow: scroll;*/
+}
+
+.panel .bodytext {
+    overflow: scroll;
+    height: 137px;
+    width: 554px;
 }
 
 /*TEXT STYLES*/

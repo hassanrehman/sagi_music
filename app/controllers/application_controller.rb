@@ -7,4 +7,11 @@ class ApplicationController < ActionController::Base
 
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
+
+  #before_filter :block_by_ip
+
+  def block_by_ip
+      RAILS_DEFAULT_LOGGER.info request.remote_ip
+  end
+
 end

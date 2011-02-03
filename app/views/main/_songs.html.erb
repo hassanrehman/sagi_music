@@ -1,8 +1,8 @@
 <%
 song_links = []
 songs.each do |song|
-  song_links << link_to(song.name, "javascript:;",
-    :onclick => "playSong(\"#{song.full_path}\");")
+  song_links << link_to(song.name, "javascript:;", :id => "song_panel_#{song.id}",
+    :onclick => "playSong(#{song.web_info.to_json});")
 end
 %>
 <%= song_links.join(", ") %>

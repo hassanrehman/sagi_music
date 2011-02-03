@@ -1,2 +1,3 @@
-<%= link_to song_info_from_path(search_results.full_path), "javascript:;",
-  :onclick => "playSong(\"#{search_results.full_path}\");", :title => song_info_from_path(search_results.full_path) %>
+<%- info = "#{search_results.album.artist.name} - #{search_results.name}" -%>
+<%= link_to info, "javascript:;",
+  :onclick => "playSong(#{search_results.web_info.to_json});", :title => info %>

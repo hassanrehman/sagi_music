@@ -16,7 +16,7 @@ function loadSearchResults(keyword_id, update_id) {
     });
 }
 
-function loadSubPanel(div, url) {
+function loadSubPanel(div, url, highlight_link) {
     $(div).show('fast');
     $.ajax({
         url: url,
@@ -24,56 +24,66 @@ function loadSubPanel(div, url) {
             $(div+' .bodytext').html("<br /><br /><img src='/images/loadinfo.gif'><a> Loading ... </a>");
         },
         success: function(data) {
-            $(div+' .bodytext').html("<br /><br />"+data);
+            $(div+' .bodytext').html("<br />"+data);
+            if( highlight_link ) {
+              $(highlight_link).css('color', 'orange').css('font-size', '14px');
+              parent = $(highlight_link).parent();
+              parent.scrollTop($(highlight_link).position().top - parent.position().top)
+            }
         },
         error: function( ) {
-            $(div+' .bodytext').html("<br /><br /> Whooops .. something went wrong");
+            $(div+' .bodytext').html("<br /> Whooops .. something went wrong");
         }
     });
+    
 }
 
-function nextRandomSong(request_delete) {
+function nextRandomSong() {
     if( $('#stickySong').attr('checked') ) {
         playSong($('#nowDirectLink a').attr('href').replace('direct', 'music'));
     }
     else {
-        //TODO: send params as artist and/or album ids to select next random
-        $.ajax({
-            url: '/next_random',
-            params: {request_delete: request_delete},
-            beforeSend: function() {
-                //$(div+' .bodytext').html("<br /><br /><img src='/images/loadinfo.gif'><a> Loading ... </a>");
-            },
-            success: function(data) {
-                playSong(data);
-            },
-            error: function( ) {
-                //$(div+' .bodytext').html("<br /><br /> Whooops .. something went wrong");
-                console.log('shit');
-            }
+        $.getJSON( '/next_random', function(data) {
+           playSong(data);
         });
     }
 }
 
-//path is asumed to be  /music/artist/album/song
-function playSong(path) {
-    niftyplayer('nplayer').load(path);
+function slug(str) {
+    return str.replace(/[^a-z0-9\.]/ig, "-");
+}
+
+// parameter expected: hash object (json). see Song#web_info in Song model
+function playSong(song) {
+    niftyplayer('nplayer').load(song["full_path"]);
     niftyplayer('nplayer').play();
-    tokens = path.split("/");   //ignore the first ..  its always empty
-    console.log(path);
-    $('#nowArtist').html(tokens[2]);
-    $('#nowAlbum').html(tokens[3]);
-    $('#nowSong').html(tokens[4]);
-    info = tokens[2]+"/"+tokens[3]+"/"+tokens[4];
-    $('#nowDirectLink').html("<a href=\"/direct/"+info+"\">"+info+"</a>");
-    $('title').html(tokens[2]+" - "+tokens[4]);
+    console.log(song["full_path"]);
+    //set current song variables
+    $('#nowArtist').html(song["artist_name"]); $('#nowArtistId').text(song["artist_id"]);
+    $('#nowAlbum').html(song["album_name"]); $('#nowAlbumId').text(song["album_id"]);
+    $('#nowSong').html(song["song_name"]); $('#nowSongId').text(song["song_id"]);
+    //direcet link
+    path = "/direct/"+song["song_id"]+"/"+slug(song["artist_name"]+" - "+slug(song["song_name"]));
+    $('#nowDirectLink').html("<a href=\""+path+"\"> Direct Link </a>");
+    //title of the page
+    $('title').html(song["artist_name"]+" - "+song["song_name"]);
 }
 
 function locateSong() {
-    artist = $('#nowArtist').html();
-    album = $('#nowAlbum').html();
-    loadSubPanel('#albumsMenu', "/get_albums/"+artist);
-    loadSubPanel('#songsMenu', "/get_songs/"+artist+"/"+album);
+    artist = $('#nowArtistId').text();
+    album = $('#nowAlbumId').text();
+    song = $('#nowSongId').text();
+    parent = $("#artist_panel_"+artist).parent();
+    //clear all children's css
+    parent.children("a").css('color', '').css('font-size', '');
+    //highlight artist
+    $("#artist_panel_"+artist).css('color', 'orange').css('font-size', '14px');
+    //scroll the pane
+    parent.scrollTop(0);
+    parent.scrollTop($("#artist_panel_"+artist).position().top - parent.position().top)
+    
+    loadSubPanel('#albumsMenu', "/get_albums/"+artist+"?ignore_single_album=1", '#album_panel_'+$('#nowAlbumId').text());
+    loadSubPanel('#songsMenu', "/get_songs_by_album/"+album, '#song_panel_'+$('#nowSongId').text());
 }
 
 function toggleSticky(field) {

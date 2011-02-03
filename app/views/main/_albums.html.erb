@@ -1,17 +1,20 @@
 <%
 album_links = []
 album_links << link_to("All", "javascript:;", :style => "color:green;",
-    :onclick => "loadSubPanel('#songsMenu', \"#{songs_by_artist_path(artist_id)}\");") if albums.size > 1
+    :onclick => "loadSubPanel('#songsMenu', \"#{songs_by_artist_path(albums.first.artist_id)}\");") if albums.size > 1
   
 album_links += albums.collect do |a|
-  link_to a.name, "javascript:;",
+  link_to a.name, "javascript:;", :id => "album_panel_#{a.id}",
     :onclick => "loadSubPanel('#songsMenu', \"#{songs_by_album_path(a.id)}\");"
 end
 %>
 <%= album_links.join(", ") %>
 
-<% if albums.size == 1 %>
+<% if albums.size == 1 and defined?(ignore_single_album) %>
 <script type="text/javascript">
+  //this produces a bug in locate song .. if there'z only one album, this gets
+  //called AFTER the locate song loads the album. The solution is to use the server
+  //to distinguish between the two kinds of calls.
   loadSubPanel('#songsMenu', "<%=  songs_by_album_path(albums.first.id) %>");
 </script>
 <% end %>

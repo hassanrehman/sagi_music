@@ -19,11 +19,13 @@
     <div id="menu" align="right">
       <div align="right" style="width:189px; height:8px;"><img src="/images/mnu_topshadow.gif" width="189" height="8" alt="mnutopshadow" /></div>
       <div id="mainMenu" class="linksmenu" align="center">
+	<%if false  #dunno what to put here yet %>
         <%= link_to "Playing Now >>  ", "javascript:;", :title=>"Artists", :onclick => "$('#playingNow').toggle('fast');", :style => "text-align: right" %>
         <div id="playingNow" style="display:none">
           <%= link_to "Playing Now", "javascript:;", :title=>"Artists" %>
           <%= link_to "Playing Now", "javascript:;", :title=>"Artists" %>
         </div>
+	<% end %>
         <%= link_to "Search", "javascript:;", :onclick => "$('#searchText').toggle(); $('#search_keyword').focus();", :style => "text-align: center" %>
         <div id="searchText" style="display:none">
           <form action="javascript:;" onsubmit="loadSearchResults('#search_keyword', '#search_results'); return false;">
@@ -38,9 +40,9 @@
     </div>
     <div id="contenttext">
       <div class="bodytext" style="padding:12px;" align="justify">
-        <strong>Artist: </strong><span id="nowArtist"></span><br />
-        <strong>Album: </strong><span id="nowAlbum"></span><br />
-        <strong>Song: </strong><span id="nowSong"></span><br />
+        <%=check_box_tag 'stickyArtist',"",false, :onclick => "toggleSticky(this);"%><strong>Artist: </strong><span id="nowArtist"></span><br />
+        <%=check_box_tag 'stickyAlbum',"",false, :onclick => "toggleSticky(this);"%><strong>Album: </strong><span id="nowAlbum"></span><br />
+        <%=check_box_tag 'stickySong',"",false, :onclick => "toggleSticky(this);"%><strong>Song: </strong><span id="nowSong"></span><br />
         <strong>Direct Link: </strong><span id="nowDirectLink"></span><br />
         <br />
         <embed src="/niftyplayer.swf" quality=high bgcolor=#FFFFFF
@@ -60,7 +62,7 @@
       $(document).ready(function(){
         loadSubPanel('#artistsMenu', '<%=artists_path%>');
         <%if @song%> setTimeout( "playSong(\"<%=@song%>\");", 1000); <%end%>
-        setInterval("if( /finished|error|empty/.test( niftyplayer('nplayer').getState() )) nextRandomSong();", 2000);
+        //setInterval("if( /finished|error|empty/.test( niftyplayer('nplayer').getState() )) nextRandomSong();", 2000);
       });
     </script>
   </div>

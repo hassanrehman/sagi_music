@@ -40,17 +40,18 @@
     </div>
     <div id="contenttext">
       <div class="bodytext" style="padding:12px;" align="justify">
+        <%= %w(nowArtistId nowAlbumId nowSongId).collect{|id| hidden_field_tag(id)}.join(" ") %>
         <%=check_box_tag 'stickyArtist',"",false, :onclick => "toggleSticky(this);"%><strong>Artist: </strong><span id="nowArtist"></span><br />
         <%=check_box_tag 'stickyAlbum',"",false, :onclick => "toggleSticky(this);"%><strong>Album: </strong><span id="nowAlbum"></span><br />
         <%=check_box_tag 'stickySong',"",false, :onclick => "toggleSticky(this);"%><strong>Song: </strong><span id="nowSong"></span><br />
-        <strong>Direct Link: </strong><span id="nowDirectLink"></span><br />
+        <strong><span id="nowDirectLink"></span></strong><br />
         <br />
         <embed src="/niftyplayer.swf" quality=high bgcolor=#FFFFFF
                width="165" height="37" name="nplayer" align=""
                type="application/x-shockwave-flash" swLiveConnect="true"
                pluginspage="http://www.macromedia.com/go/getflashplayer">
         </embed> <br />
-        <%= link_to "Next Random", "javascript:;", :onclick => "nextRandomSong();" %> |
+        <%= link_to "Next Random", "javascript:;", :onclick => "nextRandomSong();" %> <%=image_tag "question-mark.gif", :title => "HotKey: d or n", :onclick => "alert('HotKey: d or n');"%> |
         <%#= link_to "Delete and Next Random", "javascript:;", :onclick => "nextRandomSong(1);" %>
         <%= link_to "Locate Song", "javascript:;", :onclick => "locateSong();" %>
       </div>
@@ -61,8 +62,15 @@
     <script type="text/javascript">
       $(document).ready(function(){
         loadSubPanel('#artistsMenu', '<%=artists_path%>');
-        <%if @song%> setTimeout( "playSong(\"<%=@song%>\");", 1000); <%end%>
+        <%if @song%> setTimeout( "playSong(<%=get_escaped_json(@song.web_info)%>);", 1000); <%end%>
         setInterval("if( /finished|error|empty/.test( niftyplayer('nplayer').getState() )) nextRandomSong();", 2000);
+        $(document).keypress(function(event) {
+         if( $(event.target).attr('id') != 'search_keyword' ) {
+           //n N . > d D  for next song
+           if( /110|78|46|62|100|68/.test(event.which) )
+             nextRandomSong();
+         }
+        });
       });
     </script>
   </div>
