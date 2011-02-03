@@ -50,7 +50,16 @@ class MainController < ApplicationController
   end
 
   def next_random
-    song = Song.find(rand(Song.maximum(:id)+1), :include => {:album => :artist})
+    song = if params[:song_id]
+      Song.find_by_id(params[:song_id].to_i, :include => {:album => :artist})
+    elsif params[:album_id]
+      album = Album.find_by_id(params[:album_id].to_i)
+      album.songs.rand if album
+    elsif params[:artist_id]
+      artist = Artist.find_by_id(params[:artist_id].to_i)
+      album = artist.albums.rand if artist
+      album.songs.rand if album
+    end || Song.find(rand(Song.maximum(:id)+1), :include => {:album => :artist})
     RAILS_DEFAULT_LOGGER.info "Playing: #{song.full_path}"
     render :json => song.web_info
   end

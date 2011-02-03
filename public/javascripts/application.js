@@ -39,14 +39,17 @@ function loadSubPanel(div, url, highlight_link) {
 }
 
 function nextRandomSong() {
-    if( $('#stickySong').attr('checked') ) {
-        playSong($('#nowDirectLink a').attr('href').replace('direct', 'music'));
-    }
-    else {
-        $.getJSON( '/next_random', function(data) {
-           playSong(data);
-        });
-    }
+    params = {};
+    if( $('#stickySong').attr('checked') )
+        params = {song_id: $('#nowSongId').text()};
+    else if( $('#stickyAlbum').attr('checked') )
+        params = {album_id: $('#nowAlbumId').text()};
+    else if( $('#stickyArtist').attr('checked') )
+        params = {artist_id: $('#nowArtistId').text()};
+    
+    $.getJSON( '/next_random', params, function(data) {
+        playSong(data);
+    });
 }
 
 function slug(str) {
@@ -59,9 +62,9 @@ function playSong(song) {
     niftyplayer('nplayer').play();
     console.log(song["full_path"]);
     //set current song variables
-    $('#nowArtist').html(song["artist_name"]); $('#nowArtistId').text(song["artist_id"]);
-    $('#nowAlbum').html(song["album_name"]); $('#nowAlbumId').text(song["album_id"]);
-    $('#nowSong').html(song["song_name"]); $('#nowSongId').text(song["song_id"]);
+    $('#nowArtist').html(song["artist_name"]);$('#nowArtistId').text(song["artist_id"]);
+    $('#nowAlbum').html(song["album_name"]);$('#nowAlbumId').text(song["album_id"]);
+    $('#nowSong').html(song["song_name"]);$('#nowSongId').text(song["song_id"]);
     //direcet link
     path = "/direct/"+song["song_id"]+"/"+slug(song["artist_name"]+" - "+slug(song["song_name"]));
     $('#nowDirectLink').html("<a href=\""+path+"\"> Direct Link </a>");
