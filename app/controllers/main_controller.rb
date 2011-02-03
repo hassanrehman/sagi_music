@@ -36,7 +36,7 @@ class MainController < ApplicationController
   end
 
   def get_songs_by_artist
-    albums = Album.find_all_by_artist_id(params[:artist_id].to_i, :include => {:album => :artist})
+    albums = Album.find_all_by_artist_id(params[:artist_id].to_i, :include => :artist)
     if albums.blank?
       render :text => "no songs found."
     else
