@@ -66,8 +66,12 @@ class MainController < ApplicationController
     page = (params["p"]||"0").to_i
 
     render :text => "" and return if keyword.blank?
+    
+    keywords = keyword.split
+    query_string = keywords.collect {|index| "full_path LIKE %#{index}%" }.join(' AND ')
 
-    results = Song.all(:conditions => [ "full_path like ?", "%#{keyword}%"], :include => {:album => :artist},
+    results = Song.all(:conditions => [ query_string], :include => {:album => :artist},
+    #results = Song.all(:conditions => [ "full_path like ?", "%#{keyword}%"], :include => {:album => :artist},
       :limit => MAX_RESULTS, :offset => page*MAX_RESULTS)
     render :partial => "search_results", :collection => results, :locals => {:page => page}
   end
