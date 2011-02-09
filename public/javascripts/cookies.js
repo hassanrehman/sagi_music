@@ -1,0 +1,46 @@
+
+/*  COOKIE FUNCTIONS  */
+function createCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime()+(days*24*60*60*1000));
+        expires = "; expires="+date.toGMTString();
+    }
+    document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+//appends the new value at the END of the cookie string
+function appendInCookie(name, value, days) {
+    createCookie(name, readCookie(name)+" "+value, days);
+}
+/* END COOKIE FUNCTIONS  */
+
+/* previous Song FEATURE FUNCTIONS */
+//function ensures null is never returned
+function previousSongCookie() {
+    return (readCookie("previous_song") || "").replace(/\+/, " ");
+}
+function addPreviousSong(id) {
+    appendInCookie("previous_song", id, 365);
+}
+function cookiesEnabled() {
+    //read if the testCookie already exists
+    if( readCookie("testCookie") != null )
+        return true;
+    //if not, try to create it
+    createCookie("testCookie", "1", 1);
+    //if the cookie still doesn't exist, it means cookies are disabled
+    return readCookie("testCookie") != null;
+}
