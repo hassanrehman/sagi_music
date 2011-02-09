@@ -44,16 +44,21 @@
         <%=check_box_tag 'stickyArtist',"",false, :onclick => "toggleSticky(this);"%><strong>Artist: </strong><span id="nowArtist"></span><br />
         <%=check_box_tag 'stickyAlbum',"",false, :onclick => "toggleSticky(this);"%><strong>Album: </strong><span id="nowAlbum"></span><br />
         <%=check_box_tag 'stickySong',"",false, :onclick => "toggleSticky(this);"%><strong>Song: </strong><span id="nowSong"></span><br />
-        <strong><span id="nowDirectLink"></span></strong><br />
+        <strong><span id="nowDirectLink"><a href="javascript:;">Direct Link</a></span></strong> <%= link_to "Du", "javascript:;", :id => "copyDirectLink" %><br />
         <br />
         <embed src="/niftyplayer.swf" quality=high bgcolor=#FFFFFF
                width="165" height="37" name="nplayer" align=""
                type="application/x-shockwave-flash" swLiveConnect="true"
                pluginspage="http://www.macromedia.com/go/getflashplayer">
         </embed> <br />
-        <%= link_to "Next Random", "javascript:;", :onclick => "nextRandomSong();" %> <%=image_tag "question-mark.gif", :title => "HotKey: d or n", :onclick => "alert('HotKey: d or n');"%> |
-        <%#= link_to "Delete and Next Random", "javascript:;", :onclick => "nextRandomSong(1);" %>
+        <%= link_to "<< Prev", "javascript:;", :onclick => "previousSong();" %> |
+        <%= link_to "Next >>", "javascript:;", :onclick => "nextSong();" %> <%=image_tag "question-mark.gif", :title => "HotKey: HotKeys:\n Next: d or n\n Prev: a or N\n Play/Pause: p or space", :onclick => "alert('HotKeys:\\n Next: d or n\\n Prev: a or N\\n Play/Pause: p or space');"%> |
+        <%#= link_to "Delete and Next Random", "javascript:;", :onclick => "nextSong(1);" %>
         <%= link_to "Locate Song", "javascript:;", :onclick => "locateSong();" %>
+      </div>
+      <div id="previousPanel" style="display:none">
+        <div id="nowPrevious"></div>
+        <div id="maxPrevious"></div>
       </div>
       <%= render :partial => "panel", :locals => {:div_id => "artistsMenu", :title => "Artists"}  %>
       <%= render :partial => "panel", :locals => {:div_id => "albumsMenu", :title => "Albums"}  %>
@@ -63,13 +68,30 @@
       $(document).ready(function(){
         loadSubPanel('#artistsMenu', '<%=artists_path%>');
         <%if @song%> setTimeout( "playSong(<%=get_escaped_json(@song.web_info)%>);", 1000); <%end%>
-        setInterval("if( /finished|error|empty/.test( niftyplayer('nplayer').getState() )) nextRandomSong();", 2000);
+        setInterval("if( /finished|error|empty/.test( niftyplayer('nplayer').getState() )) nextSong();", 2000);
         $(document).keypress(function(event) {
          if( $(event.target).attr('id') != 'search_keyword' ) {
-           //n N . > d D  for next song
-           if( /110|78|46|62|100|68/.test(event.which) )
-             nextRandomSong();
+           //console.log(event.which);
+           //n . > d D  for next song
+           if( /110|46|62|100|68/.test(event.which) )
+             nextSong();
+           //N , < a A  for prev song
+           else if( /78|44|60|97|65/.test(event.which) )
+             previousSong();
+           //space, P, p   for togglePlay
+           else if( /32|80|112/.test(event.which) )
+             niftyplayer('nplayer').playToggle();
          }
+        });
+        $('a#copyDirectLink').zclip({
+          path: '/ZeroClipboard.swf',
+          copy: function(){
+            return document.location.host+$('#nowDirectLink a').attr('href');
+          },
+          afterCopy: function() {
+            $('#copyDirectLink').css('background-color', 'green');
+            setTimeout("$('#copyDirectLink').css('background-color', '')", 2000);
+          }
         });
       });
     </script>

@@ -38,6 +38,29 @@ function loadSubPanel(div, url, highlight_link) {
     
 }
 
+function previousSong() {
+    //ASSUMING max and now previous fields are set
+    if( $('#nowPrevious').html().length == 0 || $('#maxPrevious').html().length == 0 ) return;
+    //when at start, prompt user
+    if( $('#nowPrevious').html() == "1" ) {
+        alert('at the start');
+        return;
+    }
+    newNowPrevious = parseInt( $('#nowPrevious').html() ) - 1;
+    $('#previous_panel_'+newNowPrevious).click();
+    $('#nowPrevious').html(newNowPrevious+"");
+}
+
+function nextSong() {
+    if( $('#nowPrevious').html() == $('#maxPrevious').html() )
+        nextRandomSong();
+    else {
+        newNowPrevious = parseInt( $('#nowPrevious').html() ) + 1;
+        $('#previous_panel_'+newNowPrevious).click();
+        $('#nowPrevious').html(newNowPrevious+"");
+    }
+}
+
 function nextRandomSong() {
     params = {};
     if( $('#stickySong').attr('checked') )
@@ -49,6 +72,7 @@ function nextRandomSong() {
     
     $.getJSON( '/next_random', params, function(data) {
         playSong(data);
+        recordPrevious(data);
     });
 }
 
@@ -60,7 +84,6 @@ function slug(str) {
 function playSong(song) {
     niftyplayer('nplayer').load(song["full_path"]);
     niftyplayer('nplayer').play();
-    console.log(song["full_path"]);
     //set current song variables
     $('#nowArtist').html(song["artist_name"]);$('#nowArtistId').text(song["artist_id"]);
     $('#nowAlbum').html(song["album_name"]);$('#nowAlbumId').text(song["album_id"]);
@@ -70,6 +93,13 @@ function playSong(song) {
     $('#nowDirectLink').html("<a href=\""+path+"\"> Direct Link </a>");
     //title of the page
     $('title').html(song["artist_name"]+" - "+song["song_name"]);
+}
+
+function recordPrevious(song) {
+    next_id = parseInt( $('#maxPrevious').html()||"0" ) + 1;
+    $('#previousPanel').html($('#previousPanel').html()+"<br /><a href=\"javascript:;\" class=\"previous_song\" id=\"previous_panel_"+next_id+"\" onclick=\"playSong({&quot;song_name&quot;:&quot;"+song["song_name"]+"&quot;,&quot;full_path&quot;:&quot;"+song["full_path"]+"&quot;,&quot;album_name&quot;:&quot;"+song["album_name"]+"&quot;,&quot;full_path_hash&quot;:"+song["full_path_hash"]+",&quot;song_id&quot;:"+song["song_id"]+",&quot;artist_name&quot;:&quot;"+song["artist_name"]+"&quot;,&quot;artist_id&quot;:"+song["artist_id"]+",&quot;album_id&quot;:"+song["album_id"]+"});\">"+song["song_name"]+"</a>");
+    $('#maxPrevious').html(next_id+"");
+    $('#nowPrevious').html(next_id+"");
 }
 
 function locateSong() {

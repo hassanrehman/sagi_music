@@ -7,10 +7,7 @@ class MainController < ApplicationController
     #@all_artists = Artist.all.map(&:name)
     @song = Song.find_by_id(params[:song_id], :include => {:album => :artist})
   end
-  
-  def direct
-    index
-  end
+  alias_method :direct, :index
 
   def get_artists
     render :partial => "artists", :locals => {:artists => Artist.all}
@@ -21,6 +18,7 @@ class MainController < ApplicationController
     if albums.blank?
       render :text => "no albums found."
     else
+      #extra parameter for panel opening problem
       more_params = params[:ignore_single_album] ? {:ignore_single_album => 1} : {}
       render :partial => "albums", :locals => {:albums => albums}.merge(more_params)
     end
@@ -36,16 +34,11 @@ class MainController < ApplicationController
   end
 
   def get_songs_by_artist
-    albums = Album.find_all_by_artist_id(params[:artist_id].to_i, :include => :artist)
-    if albums.blank?
+    songs = Album.find_all_by_artist_id(params[:artist_id].to_i, :include => :artist).map(&:songs).flatten
+    if songs.blank?
       render :text => "no songs found."
     else
-      songs = albums.map(&:songs).flatten
-      if songs.blank?
-        render :text => "no songs found."
-      else
-        render :partial => "songs", :locals => {:songs => songs}
-      end
+      render :partial => "songs", :locals => {:songs => songs}
     end
   end
 
@@ -62,16 +55,14 @@ class MainController < ApplicationController
   end
 
   def search
-    keyword = params["q"].strip
+    keywords = (params["q"]||"").strip.split
     page = (params["p"]||"0").to_i
 
-    render :text => "" and return if keyword.blank?
+    render :text => "" and return if keywords.blank?
+    conds_query = (Array.new(keywords.size) {"full_path LIKE ?"}).join(" AND ")
+    keywords.map!{|k| "%#{k}%" }
     
-    keywords = keyword.split
-    query_string = keywords.collect {|index| "full_path LIKE %#{index}%" }.join(' AND ')
-
-    results = Song.all(:conditions => [ query_string], :include => {:album => :artist},
-    #results = Song.all(:conditions => [ "full_path like ?", "%#{keyword}%"], :include => {:album => :artist},
+    results = Song.all(:conditions => [conds_query]+keywords, :include => {:album => :artist},
       :limit => MAX_RESULTS, :offset => page*MAX_RESULTS)
     render :partial => "search_results", :collection => results, :locals => {:page => page}
   end

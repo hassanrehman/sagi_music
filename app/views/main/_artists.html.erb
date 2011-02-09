@@ -1,6 +1,23 @@
-<%= 
-artists.collect do |a|
-  link_to a.name, "javascript:;", :id => "artist_panel_#{a.id}",
-    :onclick => "$('#songsMenu').hide('fast'); loadSubPanel('#albumsMenu', \"#{albums_path(a.id)}\");"
-end.join(", ")
-%>
+
+<% if false %>
+<% cols = 4 %>
+<%  groups=[]; 0.step(artists.size, cols){|i| groups << artists[i..i+cols-1]  } %>
+<table>
+<%- groups.each do |g| -%>
+  <tr>
+  <%- g.each do |a| -%>
+    <td>
+      <%= link_to a.name, "javascript:;", :id => "artist_panel_#{a.id}",
+            :onclick => "$('#songsMenu').hide('fast'); loadSubPanel('#albumsMenu', \"#{albums_path(a.id)}\");" %>
+    </td>
+  <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+<% end %>
+
+<%- links = artists.map{|a| link_to a.name, "javascript:;", :id => "artist_panel_#{a.id}",
+              :onclick => "$('#songsMenu').hide('fast'); loadSubPanel('#albumsMenu', \"#{albums_path(a.id)}\");" } -%>
+
+<%= links.join(", ") %>
