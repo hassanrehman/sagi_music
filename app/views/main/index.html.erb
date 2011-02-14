@@ -19,13 +19,13 @@
     <div id="menu" align="right">
       <div align="right" style="width:189px; height:8px;"><img src="/images/mnu_topshadow.gif" width="189" height="8" alt="mnutopshadow" /></div>
       <div id="mainMenu" class="linksmenu" align="center">
-	<%if false  #dunno what to put here yet %>
-        <%= link_to "Playing Now >>  ", "javascript:;", :title=>"Artists", :onclick => "$('#playingNow').toggle('fast');", :style => "text-align: right" %>
-        <div id="playingNow" style="display:none">
-          <%= link_to "Playing Now", "javascript:;", :title=>"Artists" %>
-          <%= link_to "Playing Now", "javascript:;", :title=>"Artists" %>
-        </div>
-	<% end %>
+        <%if false  #dunno what to put here yet %>
+          <%= link_to "Playing Now >>  ", "javascript:;", :title=>"Artists", :onclick => "$('#playingNow').toggle('fast');", :style => "text-align: right" %>
+          <div id="playingNow" style="display:none">
+            <%= link_to "Playing Now", "javascript:;", :title=>"Artists" %>
+            <%= link_to "Playing Now", "javascript:;", :title=>"Artists" %>
+          </div>
+        <% end %>
         <%= link_to "Search", "javascript:;", :onclick => "$('#searchText').toggle(); $('#search_keyword').focus();", :style => "text-align: center" %>
         <div id="searchText" style="display:none">
           <form action="javascript:;" onsubmit="loadSearchResults('#search_keyword', '#search_results'); return false;">
@@ -33,7 +33,7 @@
           </form>
         </div>
         <div id="search_results" style="display:block">
-          
+
         </div>
       </div>
       <div align="right" style="width:189px; height:8px;"><img src="/images/mnu_bottomshadow.gif" width="189" height="8" alt="mnubottomshadow" /></div>
@@ -47,14 +47,24 @@
         <strong><span id="nowDirectLink"><a href="javascript:;">Direct Link</a></span></strong> <%= link_to "Du", "javascript:;", :id => "copyDirectLink" %><br />
         <br />
         <embed src="/niftyplayer.swf" quality=high bgcolor=#FFFFFF
-               width="165" height="37" name="nplayer" align=""
-               type="application/x-shockwave-flash" swLiveConnect="true"
-               pluginspage="http://www.macromedia.com/go/getflashplayer">
+        width="165" height="37" name="nplayer" align=""
+        type="application/x-shockwave-flash" swLiveConnect="true"
+        pluginspage="http://www.macromedia.com/go/getflashplayer">
         </embed> <br />
         <%= link_to "<< Prev", "javascript:;", :onclick => "previousSong();" %> |
         <%= link_to "Next >>", "javascript:;", :onclick => "nextSong();" %> <%=image_tag "question-mark.gif", :title => "HotKey: HotKeys:\n Next: d or n\n Prev: a or N\n Play/Pause: p or space", :onclick => "alert('HotKeys:\\n Next: d or n\\n Prev: a or N\\n Play/Pause: p or space');"%> |
         <%#= link_to "Delete and Next Random", "javascript:;", :onclick => "nextSong(1);" %>
         <%= link_to "Locate Song", "javascript:;", :onclick => "locateSong();" %>
+        <%= link_to "Help", "javascript:;", :onclick => "if($('#helpDiv').is(':visible')) { $('#helpDiv').hide();} else { $('#helpDiv').show(); }" %>
+        <div id="helpDiv" style="display:none;">
+          <ul>
+            <li>Direct Link gives the url for the currently playing song. Right click and copy link to share with others</li>
+            <li>Link to the currently playing song can also be copied to the clipboard by simply clicking the icon next to Direct Link</li>
+            <li>There are several shortcuts to navigate playing songs. (n / d) play the next random song, (a / N) play the previous song, (space / p) toggle pause/play </li>
+            <li>You can search the entire list of available songs by using the search feature.</li>
+            <li>Checking checkboxes next to Artists / Album and Song will lock artist/album/song to the one thats selected. Next songs that play will be only from that Artist/Album/Song. </li>
+          </ul>
+        </div>
       </div>
       <div id="previousPanel" style="display:none">
         <div id="nowPrevious"></div>
@@ -66,40 +76,40 @@
     </div>
     <script type="text/javascript">
       $(document).ready(function(){
-        loadSubPanel('#artistsMenu', '<%=artists_path%>');
+          loadSubPanel('#artistsMenu', '<%=artists_path%>');
         <%if @song%> setTimeout( "playSong(<%=get_escaped_json(@song.web_info)%>);", 1000); <%end%>
-        setInterval("if( /finished|error|empty/.test( niftyplayer('nplayer').getState() )) nextSong();", 2000);
-        $(document).keypress(function(event) {
-         if( $(event.target).attr('id') != 'search_keyword' ) {
-           //console.log(event.which);
-           //n . > d D  for next song
-           if( /110|46|62|100|68/.test(event.which) )
-             nextSong();
-           //N , < a A  for prev song
-           else if( /78|44|60|97|65/.test(event.which) )
-             previousSong();
-           //space, P, p   for togglePlay
-           else if( /32|80|112/.test(event.which) )
-             niftyplayer('nplayer').playToggle();
-         }
-        });
-        $('a#copyDirectLink').zclip({
-          path: '/ZeroClipboard.swf',
-          copy: function(){
-            return document.location.host+$('#nowDirectLink a').attr('href');
-          },
-          afterCopy: function() {
-            $('#copyDirectLink').css('background-color', 'green');
-            setTimeout("$('#copyDirectLink').css('background-color', '')", 2000);
-          }
-        });
-      });
-    </script>
+          setInterval("if( /finished|error|empty/.test( niftyplayer('nplayer').getState() )) nextSong();", 2000);
+          $(document).keypress(function(event) {
+            if( $(event.target).attr('id') != 'search_keyword' ) {
+            //console.log(event.which);
+            //n . > d D  for next song
+            if( /110|46|62|100|68/.test(event.which) )
+                 nextSong();
+            //N , < a A  for prev song
+            else if( /78|44|60|97|65/.test(event.which) )
+            previousSong();
+            //space, P, p   for togglePlay
+            else if( /32|80|112/.test(event.which) )
+            niftyplayer('nplayer').playToggle();
+            }
+            });
+          $('a#copyDirectLink').zclip({
+path: '/ZeroClipboard.swf',
+copy: function(){
+return document.location.host+$('#nowDirectLink a').attr('href');
+},
+afterCopy: function() {
+$('#copyDirectLink').css('background-color', 'green');
+setTimeout("$('#copyDirectLink').css('background-color', '')", 2000);
+}
+});
+});
+</script>
   </div>
-  
+
   <div id="footer" class="smallgraytext" align="center">
     <a href="#">Home</a> | <a href="#">About Us</a> | <a href="#">Products</a> | <a href="#">Our Services</a> | <a href="#">Contact Us</a><br />
-			saGi loCal Mu$ic Repo &copy; <%=Time.now.year%><br />
+    saGi loCal Mu$ic Repo &copy; <%=Time.now.year%><br />
     <a>Hosting Colombia</a><br />
   </div>
 </div>
