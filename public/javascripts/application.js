@@ -71,8 +71,7 @@ function nextRandomSong() {
         params = {artist_id: $('#nowArtistId').text()};
     
     $.getJSON( '/next_random', params, function(data) {
-        playSong(data);
-        recordPrevious(data);
+        playSong(data, true);
     });
 }
 
@@ -81,7 +80,9 @@ function slug(str) {
 }
 
 // parameter expected: hash object (json). see Song#web_info in Song model
-function playSong(song) {
+// doRecordPrevious has default value true. If false, the song is not recorded
+//   for previousSong playback
+function playSong(song, doRecordPrevious) {
     niftyplayer('nplayer').load(song["full_path"]);
     niftyplayer('nplayer').play();
     //set current song variables
@@ -93,11 +94,19 @@ function playSong(song) {
     $('#nowDirectLink').html("<a href=\""+path+"\"> Direct Link </a>");
     //title of the page
     $('title').html(song["artist_name"]+" - "+song["song_name"]);
+
+    if( doRecordPrevious === undefined ) {
+        doRecordPrevious = true;
+    }
+    if( doRecordPrevious )
+        recordPrevious(song);
 }
 
 function recordPrevious(song) {
     next_id = parseInt( $('#maxPrevious').html()||"0" ) + 1;
-    $('#previousPanel').html($('#previousPanel').html()+"<br /><a href=\"javascript:;\" class=\"previous_song\" id=\"previous_panel_"+next_id+"\" onclick=\"playSong({&quot;song_name&quot;:&quot;"+song["song_name"]+"&quot;,&quot;full_path&quot;:&quot;"+song["full_path"]+"&quot;,&quot;album_name&quot;:&quot;"+song["album_name"]+"&quot;,&quot;full_path_hash&quot;:"+song["full_path_hash"]+",&quot;song_id&quot;:"+song["song_id"]+",&quot;artist_name&quot;:&quot;"+song["artist_name"]+"&quot;,&quot;artist_id&quot;:"+song["artist_id"]+",&quot;album_id&quot;:"+song["album_id"]+"});\">"+song["song_name"]+"</a>");
+    //prepare an anchor link with playSong( song_json ), to be called when a previous song is played
+    //note that recordPrevious is false is in this case.
+    $('#previousPanel').html($('#previousPanel').html()+"<br /><a href=\"javascript:;\" class=\"previous_song\" id=\"previous_panel_"+next_id+"\" onclick=\"playSong({&quot;song_name&quot;:&quot;"+song["song_name"]+"&quot;,&quot;full_path&quot;:&quot;"+song["full_path"]+"&quot;,&quot;album_name&quot;:&quot;"+song["album_name"]+"&quot;,&quot;full_path_hash&quot;:"+song["full_path_hash"]+",&quot;song_id&quot;:"+song["song_id"]+",&quot;artist_name&quot;:&quot;"+song["artist_name"]+"&quot;,&quot;artist_id&quot;:"+song["artist_id"]+",&quot;album_id&quot;:"+song["album_id"]+"}, false);\">"+song["song_name"]+"</a>");
     $('#maxPrevious').html(next_id+"");
     $('#nowPrevious').html(next_id+"");
 }
