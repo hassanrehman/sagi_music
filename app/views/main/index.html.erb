@@ -96,7 +96,7 @@
           $('a#copyDirectLink').zclip({
 path: '/ZeroClipboard.swf',
 copy: function(){
-return document.location.host+$('#nowDirectLink a').attr('href');
+return "http://"+document.location.host+$('#nowDirectLink a').attr('href');
 },
 afterCopy: function() {
 $('#copyDirectLink').css('background-color', 'green');
