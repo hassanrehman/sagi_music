@@ -27,12 +27,13 @@
           </div>
         <% end %>
         <%= link_to "Search", "javascript:;", :onclick => "$('#searchText').toggle(); $('#search_keyword').focus();", :style => "text-align: center" %>
-        <div id="searchText" style="display:block">
+        <div id="searchText" style="display:none">
           <form action="javascript:;" onsubmit="loadSearchResults('#search_keyword', '#search_results'); return false;">
             <input type="text" name="search_keyword" id="search_keyword" />
           </form>
         </div>
         <div id="search_results" style="display:block">
+
         </div>
       </div>
       <div align="right" style="width:189px; height:8px;"><img src="/images/mnu_bottomshadow.gif" width="189" height="8" alt="mnubottomshadow" /></div>
@@ -43,8 +44,7 @@
         <%=check_box_tag 'stickyArtist',"",false, :onclick => "toggleSticky(this);"%><strong>Artist: </strong><span id="nowArtist"></span><br />
         <%=check_box_tag 'stickyAlbum',"",false, :onclick => "toggleSticky(this);"%><strong>Album: </strong><span id="nowAlbum"></span><br />
         <%=check_box_tag 'stickySong',"",false, :onclick => "toggleSticky(this);"%><strong>Song: </strong><span id="nowSong"></span><br />
-        <%= link_to "Click To Copy Song Url", "javascript:;", :id => "copyDirectLink" %>  (<%=link_to "Show", "javascript:;", :onclick => "$('#nowDirectLinkDiv').toggle('fast'); $(this).html($(this).html() == 'Show' ? 'Hide' : 'Show')"%>)<br />
-        <div id="nowDirectLinkDiv" style="display:none"><br /><strong>URL: </strong><span id="nowDirectLink"></span></div>
+        <strong><span id="nowDirectLink"><a href="javascript:;">Direct Link</a></span></strong> <%= link_to "Du", "javascript:;", :id => "copyDirectLink" %><br />
         <br />
         <embed src="/niftyplayer.swf" quality=high bgcolor=#FFFFFF
         width="165" height="37" name="nplayer" align=""
@@ -66,19 +66,9 @@
           </ul>
         </div>
       </div>
-      <div id="previousPanel" style="display:block">
+      <div id="previousPanel" style="display:none">
         <div id="nowPrevious"></div>
         <div id="maxPrevious"></div>
-      </div>
-      <div class="panel browse_artists" align="justify" style="">
-        Select Artist:
-        <%- form_tag "#",
-          :onsubmit => "$('#artistsMenu').hide('fast'); $('#songsMenu').hide('fast'); $('#artist_name').val() == '' ? $('#albumsMenu').hide('fast') : loadSubPanel('#albumsMenu', '/get_albums?'+$(this).serialize(), false); return false;",
-          :id => "artist_name_form", :style => "display: inline;" do -%>
-          <%= text_field_tag "artist_name", nil, :size => "30" %>
-        <%- end -%>  -- OR -- Select Alphabet:
-        <%= select_tag "artist_alphabet", options_for_select(["", "All", "#"]+("A".."Z").to_a),
-          :onchange => "$('#albumsMenu').hide('fast'); $('#songsMenu').hide('fast'); $(this).val() == '' ? $('#artistsMenu').hide('fast') : loadSubPanel('#artistsMenu', '/get_artists'+($(this).val() == 'All' ? '' : '?'+$(this).serialize()), false)" %>
       </div>
       <%= render :partial => "panel", :locals => {:div_id => "artistsMenu", :title => "Artists"}  %>
       <%= render :partial => "panel", :locals => {:div_id => "albumsMenu", :title => "Albums"}  %>
@@ -86,36 +76,34 @@
     </div>
     <script type="text/javascript">
       $(document).ready(function(){
+          loadSubPanel('#artistsMenu', '<%=artists_path%>');
         <%if @song%> setTimeout( "playSong(<%=get_escaped_json(@song.web_info)%>);", 1000); <%end%>
-        setInterval("if( /finished|error|empty/.test( niftyplayer('nplayer').getState() )) nextSong();", 2000);
-
-        $(document).keypress(function(event) {
-          if( !(/search_keyword|artist_name/.test($(event.target).attr('id'))) ) {
+          setInterval("if( /finished|error|empty/.test( niftyplayer('nplayer').getState() )) nextSong();", 2000);
+          $(document).keypress(function(event) {
+            if( $(event.target).attr('id') != 'search_keyword' ) {
             //console.log(event.which);
             //n . > d D  for next song
             if( /110|46|62|100|68/.test(event.which) )
-              nextSong();
+                 nextSong();
             //N , < a A  for prev song
             else if( /78|44|60|97|65/.test(event.which) )
-              previousSong();
+            previousSong();
             //space, P, p   for togglePlay
             else if( /32|80|112/.test(event.which) )
-              niftyplayer('nplayer').playToggle();
-          }
-        });
-        $('a#copyDirectLink').zclip({
-          path: '/ZeroClipboard.swf',
-          copy: function(){
-            return "http://"+document.location.host+$('#nowDirectLink a').attr('href');
-          },
-          afterCopy: function() {
-            origText = $('#copyDirectLink').html();
-            $('#copyDirectLink').html("Song Url Copied to Clipboard..");
-            setTimeout("$('#copyDirectLink').html('"+origText+"')", 3000);
-          }
-        });
-        $("#artist_name").autocomplete('<%= autocomplete_artists_path %>');
-      });
+            niftyplayer('nplayer').playToggle();
+            }
+            });
+          $('a#copyDirectLink').zclip({
+path: '/ZeroClipboard.swf',
+copy: function(){
+return "http://"+document.location.host+$('#nowDirectLink a').attr('href');
+},
+afterCopy: function() {
+$('#copyDirectLink').css('background-color', 'green');
+setTimeout("$('#copyDirectLink').css('background-color', '')", 2000);
+}
+});
+});
 </script>
   </div>
 
