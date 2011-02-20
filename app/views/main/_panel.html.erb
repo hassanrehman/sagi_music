@@ -1,5 +1,5 @@
 <div id="<%=div_id%>" class="panel" align="justify" style="display:none">
-  <span class="orangetitle"><%=title%></span>
+  <span class="orangetitle"><%=title%></span><%= link_to image_tag("close-panel.png", :alt => "Close Panel"), "javascript:;", :onclick => "$(this).parent().hide('fast')", :style => "float: right;" %>
   <div class="bodytext">
   </div>
 </div>

@@ -35,7 +35,6 @@ function loadSubPanel(div, url, highlight_link) {
             $(div+' .bodytext').html("<br /> Whooops .. something went wrong");
         }
     });
-    
 }
 
 function previousSong() {
@@ -47,7 +46,7 @@ function previousSong() {
         return;
     }
     newNowPrevious = parseInt( $('#nowPrevious').html() ) - 1;
-    $('#previous_panel_'+newNowPrevious).click();
+    $('#previousPanel #'+newNowPrevious).click();
     $('#nowPrevious').html(newNowPrevious+"");
 }
 
@@ -56,7 +55,7 @@ function nextSong() {
         nextRandomSong();
     else {
         newNowPrevious = parseInt( $('#nowPrevious').html() ) + 1;
-        $('#previous_panel_'+newNowPrevious).click();
+        $('#previousPanel #'+newNowPrevious).click();
         $('#nowPrevious').html(newNowPrevious+"");
     }
 }
@@ -91,7 +90,7 @@ function playSong(song, doRecordPrevious) {
     $('#nowSong').html(song["song_name"]);$('#nowSongId').text(song["song_id"]);
     //direcet link
     path = "/direct/"+song["song_id"]+"/"+slug(song["artist_name"]+" - "+slug(song["song_name"]));
-    $('#nowDirectLink').html("<a href=\""+path+"\"> Direct Link </a>");
+    $('#nowDirectLink').html("<a href=\""+path+"\"> "+"http://"+document.location.host+path+" </a>");
     //title of the page
     $('title').html(song["artist_name"]+" - "+song["song_name"]);
 
@@ -103,28 +102,32 @@ function playSong(song, doRecordPrevious) {
 }
 
 function recordPrevious(song) {
-    next_id = parseInt( $('#maxPrevious').html()||"0" ) + 1;
+    next_id = parseInt( $('#nowPrevious').html()||"0" ) + 1;
+    max_id = parseInt( $('#maxPrevious').html()||"0" ) + 1;
+
     //prepare an anchor link with playSong( song_json ), to be called when a previous song is played
     //note that recordPrevious is false is in this case.
-    $('#previousPanel').html($('#previousPanel').html()+"<br /><a href=\"javascript:;\" class=\"previous_song\" id=\"previous_panel_"+next_id+"\" onclick=\"playSong({&quot;song_name&quot;:&quot;"+song["song_name"]+"&quot;,&quot;full_path&quot;:&quot;"+song["full_path"]+"&quot;,&quot;album_name&quot;:&quot;"+song["album_name"]+"&quot;,&quot;full_path_hash&quot;:"+song["full_path_hash"]+",&quot;song_id&quot;:"+song["song_id"]+",&quot;artist_name&quot;:&quot;"+song["artist_name"]+"&quot;,&quot;artist_id&quot;:"+song["artist_id"]+",&quot;album_id&quot;:"+song["album_id"]+"}, false);\">"+song["song_name"]+"</a>");
-    $('#maxPrevious').html(next_id+"");
+
+    //check to see if the next already exists
+    if( $('#previousPanel #'+next_id).size() > 0 ) {
+        //if the next div already exists, move all the numbers forward to make its space
+        for( i = next_id ; i <= max_id ; i++ )
+            $('#previousPanel #'+i).attr('id', (i+1)+"");
+    }
+
+    //then add the new div to its respected number
+    $('#previousPanel').html($('#previousPanel').html()+"<br /><a href=\"javascript:;\" class=\"previous_song\" id=\""+next_id+"\" onclick=\"playSong({&quot;song_name&quot;:&quot;"+song["song_name"]+"&quot;,&quot;full_path&quot;:&quot;"+song["full_path"]+"&quot;,&quot;album_name&quot;:&quot;"+song["album_name"]+"&quot;,&quot;full_path_hash&quot;:"+song["full_path_hash"]+",&quot;song_id&quot;:"+song["song_id"]+",&quot;artist_name&quot;:&quot;"+song["artist_name"]+"&quot;,&quot;artist_id&quot;:"+song["artist_id"]+",&quot;album_id&quot;:"+song["album_id"]+"}, false);\">"+next_id + " - " + song["song_name"]+"</a>");
+    
+    $('#maxPrevious').html(max_id+"");
     $('#nowPrevious').html(next_id+"");
 }
 
 function locateSong() {
     artist = $('#nowArtistId').text();
     album = $('#nowAlbumId').text();
-    song = $('#nowSongId').text();
-    parent = $("#artist_panel_"+artist).parent();
-    //clear all children's css
-    parent.children("a").css('color', '').css('font-size', '');
-    //highlight artist
-    $("#artist_panel_"+artist).css('color', 'orange').css('font-size', '14px');
-    //scroll the pane
-    parent.scrollTop(0);
-    parent.scrollTop($("#artist_panel_"+artist).position().top - parent.position().top)
-    
-    loadSubPanel('#albumsMenu', "/get_albums/"+artist+"?ignore_single_album=1", '#album_panel_'+$('#nowAlbumId').text());
+    song = $('#nowSongId').text();    
+    loadSubPanel('#artistsMenu', "/get_artists", '#artist_panel_'+$('#nowArtistId').text());
+    loadSubPanel('#albumsMenu', "/get_albums?artist_id="+artist+"&ignore_single_album=1", '#album_panel_'+$('#nowAlbumId').text());
     loadSubPanel('#songsMenu', "/get_songs_by_album/"+album, '#song_panel_'+$('#nowSongId').text());
 }
 

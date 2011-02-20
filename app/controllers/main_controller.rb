@@ -10,11 +10,24 @@ class MainController < ApplicationController
   alias_method :direct, :index
 
   def get_artists
-    render :partial => "artists", :locals => {:artists => Artist.all}
+    artists = if params[:artist_alphabet]
+      Artist.all(:conditions => ["name like ?", "#{params[:artist_alphabet]}%"])
+    else
+      Artist.all
+    end
+    if artists.blank?
+      render :text => "no artists found."
+    else
+      render :partial => "artists", :locals => {:artists => artists}
+    end
   end
 
   def get_albums
-    albums = Album.find_all_by_artist_id(params[:artist_id].to_i)
+    albums = if params[:artist_id]
+      Album.find_all_by_artist_id(params[:artist_id].to_i)
+    elsif params[:artist_name]
+      Album.all(:joins => :artist, :conditions => ["artists.name=?", params[:artist_name]])
+    end
     if albums.blank?
       render :text => "no albums found."
     else
@@ -22,6 +35,10 @@ class MainController < ApplicationController
       more_params = params[:ignore_single_album] ? {:ignore_single_album => 1} : {}
       render :partial => "albums", :locals => {:albums => albums}.merge(more_params)
     end
+  end
+
+  def autocomplete_artists
+    render :text => Artist.all(:conditions => ["name like ?", "%#{params[:q]}%"]).map(&:name).join("\n")
   end
 
   def get_songs_by_album

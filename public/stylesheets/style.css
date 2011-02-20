@@ -71,6 +71,10 @@ body {
     width: 554px;
 }
 
+.browse_artists {
+    height: 25px;
+}
+
 /*TEXT STYLES*/
 .bodytext {
 	font: 0.8em Tahoma, sans-serif;
@@ -174,6 +178,5 @@ body {
 }
 
 #copyDirectLink {
-    background: url(../images/copy-clipboard.png) right top no-repeat;
-    color: transparent;
+    
 }

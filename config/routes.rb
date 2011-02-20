@@ -41,7 +41,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.root :controller => "main"
   map.artists '/get_artists', :controller => "main", :action => "get_artists", :method => :get
-  map.albums '/get_albums/:artist_id', :controller => "main", :action => "get_albums", :method => :get, :requirements => { :artist_id => /\d+/ }
+  map.autocomplete_artists '/autocomplete-artists', :controller => "main", :action => "autocomplete_artists", :method => :get
+  map.albums '/get_albums', :controller => "main", :action => "get_albums", :method => :get
   map.songs_by_album '/get_songs_by_album/:album_id', :controller => "main", :action => "get_songs_by_album", :method => :get, :requirements => { :album_id => /\d+/ }
   map.songs_by_artist '/get_songs_by_artist/:artist_id', :controller => "main", :action => "get_songs_by_artist", :method => :get, :requirements => { :artist_id => /\d+/ }
   map.next_random '/next_random', :controller => "main", :action => "next_random", :method => :get
