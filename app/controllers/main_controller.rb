@@ -11,7 +11,11 @@ class MainController < ApplicationController
 
   def get_artists
     artists = if params[:artist_alphabet]
-      Artist.all(:conditions => ["name like ?", "#{params[:artist_alphabet]}%"])
+      if params[:artist_alphabet] == "#"
+        Artist.all(:conditions => ["name REGEXP '^[^a-z]+'"])
+      else
+        Artist.all(:conditions => ["name like ?", "#{params[:artist_alphabet]}%"])
+      end
     else
       Artist.all
     end
