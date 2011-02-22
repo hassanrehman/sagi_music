@@ -46,17 +46,39 @@
         <%= link_to "Click To Copy Song Url", "javascript:;", :id => "copyDirectLink" %>  (<%=link_to "Show", "javascript:;", :onclick => "$('#nowDirectLinkDiv').toggle('fast'); $(this).html($(this).html() == 'Show' ? 'Hide' : 'Show')"%>)<br />
         <div id="nowDirectLinkDiv" style="display:none"><br /><strong>URL: </strong><span id="nowDirectLink"></span></div>
         <br />
-        <embed src="/niftyplayer.swf" quality=high bgcolor=#FFFFFF
-        width="165" height="37" name="nplayer" align=""
-        type="application/x-shockwave-flash" swLiveConnect="true"
-        pluginspage="http://www.macromedia.com/go/getflashplayer">
-        </embed> <br />
-        <%= link_to "<< Prev", "javascript:;", :onclick => "previousSong();" %> |
-        <%= link_to "Next >>", "javascript:;", :onclick => "nextSong();" %> <%=image_tag "question-mark.gif", :title => "HotKey: HotKeys:\n Next: d or n\n Prev: a or N\n Play/Pause: p or space", :onclick => "alert('HotKeys:\\n Next: d or n\\n Prev: a or N\\n Play/Pause: p or space');"%> |
-        <%#= link_to "Delete and Next Random", "javascript:;", :onclick => "nextSong(1);" %>
-        <%= link_to "Locate Song", "javascript:;", :onclick => "locateSong();" %>&nbsp;|&nbsp;
-        <%= link_to "Help", "javascript:;", :onclick => "$('#helpDiv').toggle('fast');" %>
-        <div id="helpDiv" style="display:none;">
+      </div>
+      <div id="playerPanel">
+        <div class="panel sub_panel player" align="justify">
+          <embed src="/niftyplayer.swf" quality=high bgcolor=#FFFFFF
+          width="165" height="37" name="nplayer" align=""
+          type="application/x-shockwave-flash" swLiveConnect="true"
+          pluginspage="http://www.macromedia.com/go/getflashplayer">
+          </embed> <br />
+          <%= link_to "<< Prev", "javascript:;", :onclick => "previousSong();" %> | 
+          <%= link_to "Next >>", "javascript:;", :onclick => "nextSong();" %> <%=image_tag "question-mark.gif", :title => "HotKey: HotKeys:\n Next: d or n\n Prev: a or N\n Play/Pause: p or space", :onclick => "alert('HotKeys:\\n Next: d or n\\n Prev: a or N\\n Play/Pause: p or space');"%>
+          <br /><br />
+          <%= link_to "Locate Song", "javascript:;", :onclick => "locateSong();" %>&nbsp;|&nbsp;
+          <%= link_to "Help", "javascript:;", :onclick => "$('#helpDiv').toggle('fast');" %>
+        </div>
+
+        <div id="previousPanel" style="display:none">
+          <div id="nowPrevious"></div>
+          <div id="maxPrevious"></div>
+        </div>
+        <div class="panel sub_panel browse_artists" align="justify">
+          Browse By Artist: <br />
+          <%- form_tag "#",
+            :onsubmit => "$('#artistsMenu').hide('fast'); $('#songsMenu').hide('fast'); $('#artist_name').val() == '' ? $('#albumsMenu').hide('fast') : loadSubPanel('#albumsMenu', '/get_albums?'+$(this).serialize(), false); return false;",
+            :id => "artist_name_form", :style => "display: inline;" do -%>
+            <%= text_field_tag "artist_name", nil, :size => "30" %>
+          <%- end -%> <br /><br /> -- OR -- <br /> Select Alphabet:
+          <%= select_tag "artist_alphabet", options_for_select(["", "All", "#"]+("A".."Z").to_a),
+            :onchange => "$('#albumsMenu').hide('fast'); $('#songsMenu').hide('fast'); $(this).val() == '' ? $('#artistsMenu').hide('fast') : loadSubPanel('#artistsMenu', '/get_artists'+($(this).val() == 'All' ? '' : '?'+$(this).serialize()), false)" %>
+        </div>
+      </div>
+      <div id="helpDiv" class="panel" align="justify" style="display:none">
+        <span class="orangetitle">Help</span><%= link_to image_tag("close-panel.png", :alt => "Close Panel"), "javascript:;", :onclick => "$(this).parent().hide('fast')", :style => "float: right;" %>
+        <div class="bodytext">
           <ul>
             <li>Direct Link gives the url for the currently playing song. Right click and copy link to share with others</li>
             <li>Link to the currently playing song can also be copied to the clipboard by simply clicking the icon next to Direct Link</li>
@@ -65,20 +87,6 @@
             <li>Checking checkboxes next to Artists / Album and Song will lock artist/album/song to the one thats selected. Next songs that play will be only from that Artist/Album/Song. </li>
           </ul>
         </div>
-      </div>
-      <div id="previousPanel" style="display:none">
-        <div id="nowPrevious"></div>
-        <div id="maxPrevious"></div>
-      </div>
-      <div class="panel browse_artists" align="justify" style="">
-        Select Artist:
-        <%- form_tag "#",
-          :onsubmit => "$('#artistsMenu').hide('fast'); $('#songsMenu').hide('fast'); $('#artist_name').val() == '' ? $('#albumsMenu').hide('fast') : loadSubPanel('#albumsMenu', '/get_albums?'+$(this).serialize(), false); return false;",
-          :id => "artist_name_form", :style => "display: inline;" do -%>
-          <%= text_field_tag "artist_name", nil, :size => "30" %>
-        <%- end -%>  -- OR -- Select Alphabet:
-        <%= select_tag "artist_alphabet", options_for_select(["", "All", "#"]+("A".."Z").to_a),
-          :onchange => "$('#albumsMenu').hide('fast'); $('#songsMenu').hide('fast'); $(this).val() == '' ? $('#artistsMenu').hide('fast') : loadSubPanel('#artistsMenu', '/get_artists'+($(this).val() == 'All' ? '' : '?'+$(this).serialize()), false)" %>
       </div>
       <%= render :partial => "panel", :locals => {:div_id => "artistsMenu", :title => "Artists"}  %>
       <%= render :partial => "panel", :locals => {:div_id => "albumsMenu", :title => "Albums"}  %>

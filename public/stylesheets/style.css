@@ -55,15 +55,16 @@ body {
 
 /*GRAY PANEL*/
 .panel{
-	padding:12px;
 	border:solid 1px #E4E4E4;
 	background-color:#EEEEEE;
 	margin:10px;
-	padding:10px;
+        padding:12px;
 	width:550px;
 	height:160px;
 /*        overflow: scroll;*/
 }
+
+#playerPanel { height: 125px; }
 
 .panel .bodytext {
     overflow: scroll;
@@ -71,9 +72,10 @@ body {
     width: 554px;
 }
 
-.browse_artists {
-    height: 25px;
-}
+/*subclasses of panel*/
+.sub_panel { height: 100px; float: left; margin: 0 0 0 0; }
+.browse_artists { width: 275px; }
+.player { width: 240px; margin: 0 10px 0 16px; }
 
 /*TEXT STYLES*/
 .bodytext {
