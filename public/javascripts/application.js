@@ -99,6 +99,8 @@ function playSong(song, doRecordPrevious) {
     }
     if( doRecordPrevious )
         recordPrevious(song);
+
+    $('#artwork').attr('src', song["artwork_path"]);
 }
 
 function recordPrevious(song) {
@@ -116,7 +118,7 @@ function recordPrevious(song) {
     }
 
     //then add the new div to its respected number
-    $('#previousPanel').html($('#previousPanel').html()+"<br /><a href=\"javascript:;\" class=\"previous_song\" id=\""+next_id+"\" onclick=\"playSong({&quot;song_name&quot;:&quot;"+song["song_name"]+"&quot;,&quot;full_path&quot;:&quot;"+song["full_path"]+"&quot;,&quot;album_name&quot;:&quot;"+song["album_name"]+"&quot;,&quot;full_path_hash&quot;:"+song["full_path_hash"]+",&quot;song_id&quot;:"+song["song_id"]+",&quot;artist_name&quot;:&quot;"+song["artist_name"]+"&quot;,&quot;artist_id&quot;:"+song["artist_id"]+",&quot;album_id&quot;:"+song["album_id"]+"}, false);\">"+next_id + " - " + song["song_name"]+"</a>");
+    $('#previousPanel').html($('#previousPanel').html()+"<br /><a href=\"javascript:;\" class=\"previous_song\" id=\""+next_id+"\" onclick=\"playSong({&quot;song_name&quot;:&quot;"+song["song_name"]+"&quot;,&quot;full_path&quot;:&quot;"+song["full_path"]+"&quot;,&quot;full_path_hash&quot;:&quot;"+song["full_path_hash"]+"&quot;,&quot;artwork_path&quot;:&quot;"+song["artwork_path"]+"&quot;,&quot;album_name&quot;:&quot;"+song["album_name"]+"&quot;,&quot;full_path_hash&quot;:"+song["full_path_hash"]+",&quot;song_id&quot;:"+song["song_id"]+",&quot;artist_name&quot;:&quot;"+song["artist_name"]+"&quot;,&quot;artist_id&quot;:"+song["artist_id"]+",&quot;album_id&quot;:"+song["album_id"]+"}, false);\">"+next_id + " - " + song["song_name"]+"</a>");
     
     $('#maxPrevious').html(max_id+"");
     $('#nowPrevious').html(next_id+"");

@@ -72,6 +72,11 @@ body {
     width: 554px;
 }
 
+.song_info  {
+    padding: 12px;
+    height: 110px;
+}
+
 /*subclasses of panel*/
 .sub_panel { height: 100px; float: left; margin: 0 0 0 0; }
 .browse_artists { width: 275px; }
@@ -181,4 +186,10 @@ body {
 
 #copyDirectLink {
     
+}
+
+#artwork {
+    height: 100%;
+    float: left;
+    margin-right: 5px;
 }

@@ -13,38 +13,6 @@ class MusicFactory
     end
   end
 
-  def self.init_library_old
-    puts "STARTING GENERATION"
-    start_time = Time.now
-    Artist.connection.execute("TRUNCATE TABLE artists")
-    Album.connection.execute("TRUNCATE TABLE albums")
-    Song.connection.execute("TRUNCATE TABLE songs")
-
-    song_path_pre = MAIN_DIR.gsub("public", "")
-    c = 0
-    status_dots = 50
-    all_artists = get_dirs(MAIN_DIR)
-    division = (all_artists.size.to_f / status_dots.to_f).round.to_i
-    puts "*"*status_dots
-    all_artists.each_with_index do |artist_name, i|
-      a = Artist.new(:name => artist_name)
-      get_dirs("#{MAIN_DIR}/#{artist_name}").each do |album_name|
-        album = Album.new(:name => album_name)
-        album.songs = Dir.new("#{MAIN_DIR}/#{artist_name}/#{album_name}").entries.select do |song_name|
-          File.file?("#{MAIN_DIR}/#{artist_name}/#{album_name}/#{song_name}")
-        end.collect do |song_name|
-          full_path = "#{song_path_pre}/#{artist_name}/#{album_name}/#{song_name}"
-          Song.new( :name => song_name, :full_path => full_path, :full_path_hash => full_path.hash )
-        end
-        c += album.songs.size
-        a.albums << album
-      end
-      a.save!
-      print "*" if i%division == 0
-    end
-    puts "\nGENERATED #{c} SONGS IN #{Time.now - start_time}"
-  end
-
   def self.init_library
     puts "STARTING GENERATION"
     start_time = Time.now
@@ -100,6 +68,53 @@ class MusicFactory
     Logger.new(log_file)
   end
 
+  def generate_all_art
+    Album.all.each do |album|
+      puts "#{album.id} #{album.name}"
+      generate_art(album)
+    end
+    return nil
+  end
+
+  def generate_art(album_or_id)
+    album = if album_or_id.class == Fixnum
+      Album.find(album_or_id)
+    else
+      album_or_id
+    end
+    song = album.songs.first
+    if song
+      mp3 = Mp3Info.open("public#{song.full_path}")
+      if mp3.tag2["APIC"]
+        text_encoding, mime_type, picture_type, description, picture_data = mp3.tag2["APIC"].unpack("c Z* c Z* a*")
+        File.open("public/artwork/#{album.id}-#{album.name.gsub(/[^a-z0-9\.]/i, "-")}", 'w') { |f| f.puts picture_data }
+      end
+    end
+  end
   
+  def albums_with_missing_arts(size, excludes=[])
+    Album.all(:include => :songs).each do |album|
+      info = "songs: #{album.songs.size} -- #{album.id} - #{album.name} (#{album.artist.name})"
+      if album.songs.size >= size
+        unless excludes.include?(album.id)
+          mp3 = Mp3Info.open("public#{album.songs.rand.full_path}")
+          puts info if mp3.tag2["APIC"].blank?
+        end
+      end
+    end
+    return nil
+  end
+
+  def percent_missing_arts(min_songs = 0, threshold=1.0)
+    Album.all(:include => :songs).each do |album|
+      info = "songs: #{album.songs.size} -- #{album.id} - #{album.name} (#{album.artist.name})"
+
+      if album.songs.size > min_songs
+        noart = album.songs.select{|song| Mp3Info.open("public#{song.full_path}").tag2["APIC"].blank? }.size
+        percent = noart.to_f / album.songs.size.to_f
+        puts info + "missing: #{percent}%" if percent > threshold
+      end
+    end
+  end
 
 end
